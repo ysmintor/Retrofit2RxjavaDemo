@@ -31,7 +31,51 @@ the main part is error check, pass in the raw data json, then use transformer, t
 
 ----------
 
+使用方法：
+1.配置对应的外层实体，例如下面
 
+	{
+		private int count;
+	    private int start;
+	    private int total;
+	    private String title;
+	
+	    //用来模仿Data
+	    @SerializedName(value = "subjects")
+	    private T data;
+	}
+其中的T就是泛型
+
+2.同Retrofit2一样要定义接口，如下
+
+	@GET("top250")
+    Observable<HttpResult<List<ContentBean>>> getTopMovie(@Query("start") int start, @Query("count") int count);
+
+3.使用ServiceFactory
+	
+	MovieService newService = ServiceFactory.createOauthService(MovieService.class);
+        newService.getTopMovie(0, 10)
+	//                .subscribeOn(Schedulers.io())
+	//                .observeOn(AndroidSchedulers.mainThread())
+	//                .compose(new ErrorCheckTransformer<List<ContentBean>>())
+                .compose(new DefaultTransformer<List<ContentBean>>())
+                .subscribe(new Observer<List<ContentBean>>() {
+                    @Override
+                    public void onCompleted() {
+                        Toast.makeText(MainActivity.this, "Completed!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNext(List<ContentBean> subjects) {
+                        Toast.makeText(MainActivity.this, "onNext", Toast.LENGTH_SHORT).show();
+                        resultTV.setText("begin >>>>>>>>>>>>>>>>." + subjects.toString());
+                    }
+                });
 
 ##Thanks
 - [Android基于Retrofit2.0 封装的超好用的RetrofitClient工具类]( http://www.jianshu.com/p/29c2a9ac5abf)
@@ -48,7 +92,7 @@ the main part is error check, pass in the raw data json, then use transformer, t
 
 ##License
 
-    Copyright 2015 YorkYu. All rights reserved.
+    Copyright 2016 YorkYu. All rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
