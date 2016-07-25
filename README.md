@@ -39,10 +39,12 @@ the main part is error check, pass in the raw data json, then use transformer, t
 - [Retrofit + RxAndroid 实践总结](http://www.jianshu.com/p/f48f6d31314b)
 - [RxJava 与 Retrofit 结合的最佳实践]( https://gank.io/post/56e80c2c677659311bed9841)
 - [你真的会用Retrofit2吗?Retrofit2完全教程](http://www.jianshu.com/p/308f3c54abdd)
+
 ##Contact Me
 - Github:   github.com/ysmintor
 - Email:    ysmintor@gmail.com
 - Linkedin: cn.linkedin.com/in/ysmintor
+
 
 ##License
 
