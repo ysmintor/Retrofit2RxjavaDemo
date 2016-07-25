@@ -6,7 +6,7 @@ If you want to retrieve information like below, which is non restful data respon
 
 The main method is encapsulate Retrofit2 and retrieve data with Rxjava.
 
-```json    
+   
 	{
 
 	“code”:803,
@@ -20,7 +20,7 @@ The main method is encapsulate Retrofit2 and retrieve data with Rxjava.
                 }
 
 	}
-```
+
 
 ----------
 
@@ -44,6 +44,7 @@ the main part is error check, pass in the raw data json, then use transformer, t
 	    @SerializedName(value = "subjects")
 	    private T data;
 	}
+
 其中的T就是泛型
 
 2.同Retrofit2一样要定义接口，如下
@@ -52,7 +53,7 @@ the main part is error check, pass in the raw data json, then use transformer, t
     Observable<HttpResult<List<ContentBean>>> getTopMovie(@Query("start") int start, @Query("count") int count);
 
 3.使用ServiceFactory
-	
+
 	MovieService newService = ServiceFactory.createOauthService(MovieService.class);
         newService.getTopMovie(0, 10)
 	//                .subscribeOn(Schedulers.io())
