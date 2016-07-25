@@ -1,16 +1,10 @@
 package york.com.retrofit2rxjavademo.http;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import york.com.retrofit2rxjavademo.utils.OkHttpUtils;
 
 /**
  * Created by York on 2016/7/23.
@@ -19,7 +13,7 @@ public class ServiceFactory {
     public static final String OLD_BASE_URL = "https://liangfeizc.com/gw/oauthentry/";
 //    public static final String NEW_BASE_URL = "https://liangfei.me/api/oauthentry/";
     public static final String NEW_BASE_URL = "https://api.douban.com/v2/movie/";
-    private static final int DEFAULT_TIMEOUT = 5;
+    private static final int DEFAULT_TIMEOUT = 10;
     private static Retrofit sRetrefit;
     private static OkHttpClient sClient;
 
@@ -27,19 +21,7 @@ public class ServiceFactory {
 
 
     static {
-        sClient = new OkHttpClient.Builder()
-                .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request request = chain.request();
-                        HttpUrl url = request.url().newBuilder()
-                                .build();
-                        request = request.newBuilder().url(url).build();
-                        return chain.proceed(request);
-                    }
-                })
-                .build();
+         sClient = OkHttpUtils.getOkHttpClient();
 
          sRetrefit = new Retrofit.Builder()
                 .client(sClient)

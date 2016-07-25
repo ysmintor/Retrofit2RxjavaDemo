@@ -1,0 +1,58 @@
+package york.com.retrofit2rxjavademo.utils;
+
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+
+/**
+ * Created by zhy on 15/8/17.
+ * Modified by Yorkyu on 2016/7/25
+ */
+public class OkHttpUtils
+{
+    public static final long DEFAULT_MILLISECONDS = 10_000L;
+    private volatile static OkHttpUtils mInstance;
+    private static OkHttpClient mOkHttpClient;
+
+    public OkHttpUtils(OkHttpClient okHttpClient)
+    {
+        if (okHttpClient == null)
+        {
+            mOkHttpClient = new OkHttpClient.Builder()
+                    .connectTimeout(DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
+                    .readTimeout(DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
+                    .addInterceptor(new LoggerInterceptor("TAG")).build();
+
+        } else
+        {
+            mOkHttpClient = okHttpClient;
+        }
+
+    }
+
+
+    public static OkHttpUtils initClient(OkHttpClient okHttpClient)
+    {
+        if (mInstance == null)
+        {
+            synchronized (OkHttpUtils.class)
+            {
+                if (mInstance == null)
+                {
+                    mInstance = new OkHttpUtils(okHttpClient);
+                }
+            }
+        }
+        return mInstance;
+    }
+
+    public static OkHttpUtils getInstance()
+    {
+        return initClient(null);
+    }
+
+    public static OkHttpClient getOkHttpClient() {
+        return mOkHttpClient;
+    }
+}
+
