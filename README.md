@@ -2,7 +2,9 @@
 
 To explain how to retrieve data from non restful response to get the right data.
 
-If you 
+If you want to retrieve information like below, which is non restful data response, then you can combine Rxjava to decompose the result and get the real part you wanted.
+
+The main method is encapsulate Retrofit2 and retrieve data with Rxjava.
 
 ```json    
 	{
@@ -22,6 +24,8 @@ If you
 
 ----------
 
+the main part is error check, pass in the raw data json, then use transformer, to transform out the real part!
+
 一定是有code状态码和返回信息的，我之前的用法和教程一样，说将服务器返回的结果复制下来直接在AS上面利用GsonFormat转化就OK了，确实很方便，但是这样下来每个bean里面都会有重复的erroe_code和message或者服务器返回其他，所以我是这样做的：
 
 
@@ -30,7 +34,6 @@ If you
 
 
 ##Thanks
-- Google SwipeRefreshLayout
 - [Android基于Retrofit2.0 封装的超好用的RetrofitClient工具类]( http://www.jianshu.com/p/29c2a9ac5abf)
 - [Retrofit2.0 再次封装：](http://www.jianshu.com/p/7edc1cce6b93)
 - [Retrofit + RxAndroid 实践总结](http://www.jianshu.com/p/f48f6d31314b)
@@ -43,7 +46,7 @@ If you
 
 ##License
 
-    Copyright 2015 Aspsine. All rights reserved.
+    Copyright 2015 YorkYu. All rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
