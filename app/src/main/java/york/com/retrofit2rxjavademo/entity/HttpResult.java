@@ -13,7 +13,7 @@ public class HttpResult<T> {
     private String title;
 
     //用来模仿Data
-    @SerializedName(value = "subjects")
+    @SerializedName(value = "data", alternate = {"subjects", "data"})
     private T data;
 
 
