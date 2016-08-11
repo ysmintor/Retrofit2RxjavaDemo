@@ -1,4 +1,11 @@
 # Retrofit2RxjavaDemo
+## 中文版
+
+近期更新了错误处理方面，更加全面地处理了http的错误和服务返回的错误类型，并直接向用户提示。
+增加了请求时的进度对话框等，由于上班，有时间来补上这边。英语版也需要重新编写了。
+
+
+## English Version
 
 To explain how to retrieve data from non restful response to get the right data.
 
@@ -6,7 +13,7 @@ If you want to retrieve information like below, which is non restful data respon
 
 The main method is encapsulate Retrofit2 and retrieve data with Rxjava.
 
-   
+```java   
 	{
 
 	“code”:803,
@@ -20,7 +27,7 @@ The main method is encapsulate Retrofit2 and retrieve data with Rxjava.
                 }
 
 	}
-
+```
 
 ----------
 
@@ -33,7 +40,7 @@ the main part is error check, pass in the raw data json, then use transformer, t
 
 使用方法：
 1.配置对应的外层实体，例如下面
-
+```java
 	{
 		private int count;
 	    private int start;
@@ -44,16 +51,17 @@ the main part is error check, pass in the raw data json, then use transformer, t
 	    @SerializedName(value = "subjects")
 	    private T data;
 	}
-
+```
 其中的T就是泛型
 
 2.同Retrofit2一样要定义接口，如下
 
+```java
 	@GET("top250")
     Observable<HttpResult<List<ContentBean>>> getTopMovie(@Query("start") int start, @Query("count") int count);
-
+```
 3.使用ServiceFactory
-
+```java
 	MovieService newService = ServiceFactory.createOauthService(MovieService.class);
         newService.getTopMovie(0, 10)
 	//                .subscribeOn(Schedulers.io())
@@ -77,6 +85,7 @@ the main part is error check, pass in the raw data json, then use transformer, t
                         resultTV.setText("begin >>>>>>>>>>>>>>>>." + subjects.toString());
                     }
                 });
+```
 
 ##Thanks
 - [Android基于Retrofit2.0 封装的超好用的RetrofitClient工具类]( http://www.jianshu.com/p/29c2a9ac5abf)
