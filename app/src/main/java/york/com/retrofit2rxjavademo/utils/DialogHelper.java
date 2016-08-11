@@ -139,4 +139,14 @@ public class DialogHelper {
 //            dialog.show();
 //        }
 //    }
+
+    /**
+     * 取消ProgressDialog的时候，取消对observable的订阅，同时也取消了http请求 后期做处理
+     */
+    /*@Override
+    public void onCancelProgress() {
+        if (!this.isUnsubscribed()) {
+            this.unsubscribe();
+        }
+    }*/
 }

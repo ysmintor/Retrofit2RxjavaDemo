@@ -3,10 +3,10 @@ package york.com.retrofit2rxjavademo.transformer;
 import rx.Observable;
 import rx.functions.Func1;
 import york.com.retrofit2rxjavademo.entity.HttpResult;
-import york.com.retrofit2rxjavademo.http.ExceptionEngine;
 
 /**
  * Created by York on 2016/7/23.
+ * 加入了对错误处理，已经比较完整了
  */
 public class CTransformer<T> implements Observable.Transformer<HttpResult<T>, T>{
 
@@ -26,10 +26,4 @@ public class CTransformer<T> implements Observable.Transformer<HttpResult<T>, T>
         return new CTransformer<>();
     }
 
-    private  class HttpResponseFunc<T> implements Func1<Throwable, Observable<T>> {
-        @Override public Observable<T> call(Throwable throwable) {
-            //ExceptionEngine为处理异常的驱动器
-            return Observable.error(ExceptionEngine.handleException(throwable));
-        }
-    }
 }

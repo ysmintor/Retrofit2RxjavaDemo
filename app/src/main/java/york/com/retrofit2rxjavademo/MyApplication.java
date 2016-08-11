@@ -5,7 +5,7 @@ import android.app.Application;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
-import york.com.retrofit2rxjavademo.utils.LoggerInterceptor;
+import okhttp3.logging.HttpLoggingInterceptor;
 import york.com.retrofit2rxjavademo.utils.OkHttpUtils;
 
 /**
@@ -24,7 +24,8 @@ public class MyApplication extends Application {
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
-                .addInterceptor(new LoggerInterceptor("TAG"))
+                .addNetworkInterceptor(
+                        new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
         OkHttpUtils.initClient(okHttpClient);
     }

@@ -12,15 +12,14 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import york.com.retrofit2rxjavademo.R;
 import york.com.retrofit2rxjavademo.entity.ContentBean;
-import york.com.retrofit2rxjavademo.entity.HttpResult;
+import york.com.retrofit2rxjavademo.http.ApiException;
 import york.com.retrofit2rxjavademo.http.MovieService;
 import york.com.retrofit2rxjavademo.http.ServiceFactory;
 import york.com.retrofit2rxjavademo.subscribers.RxSubscriber;
 import york.com.retrofit2rxjavademo.subscribers.SubscriberOnNextListener;
+import york.com.retrofit2rxjavademo.transformer.DefaultTransformer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,32 +59,39 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.click_me_BN)
     public void onClick() {
-        MovieService newService = ServiceFactory.createOauthService(MovieService.class);
+        MovieService newService = ServiceFactory.createService(MovieService.class);
         newService.getTopMovie(0, 10)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .compose(new ErrorCheckTransformer<List<ContentBean>>())
-/*                .compose(new DefaultTransformer<List<ContentBean>>())
-                .subscribe(new Observer<List<ContentBean>>() {
+                .compose(new DefaultTransformer<List<ContentBean>>())
+                .subscribe(new RxSubscriber<List<ContentBean>>(this) {
+                    // 必须重写
+                    @Override
+                    public void onNext(List<ContentBean> contentBeen) {
+                        Toast.makeText(MainActivity.this, "onNext", Toast.LENGTH_SHORT).show();
+                        resultTV.setText("begin >>>>>>>>>>>>>>>>." + contentBeen);
+                        Log.d("main", "onNext: " + contentBeen);
+                        Toast.makeText(MainActivity.this, "onNext content = " + contentBeen, Toast.LENGTH_SHORT).show();
+                    }
+
+
+                    // 无需设置可以不用重写
+                    // !!!!注意参数为ApiException 类型，要不要写在Throwable那个了
+                    @Override
+                    protected void onError(ApiException ex) {
+                        super.onError(ex);
+                        Toast.makeText(MainActivity.this, "onError " + " exception code =" + ex.code + "exception message = " + ex.message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    // 无需设置可以不用重写
                     @Override
                     public void onCompleted() {
-                        Toast.makeText(MainActivity.this, "Completed!", Toast.LENGTH_SHORT).show();
+                        super.onCompleted();
+                        Toast.makeText(MainActivity.this, "onCompleted", Toast.LENGTH_SHORT).show();
                     }
+                });
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onNext(List<ContentBean> subjects) {
-                        Toast.makeText(MainActivity.this, "onNext", Toast.LENGTH_SHORT).show();
-                        resultTV.setText("begin >>>>>>>>>>>>>>>>." + subjects.toString());
-                    }
-                });*/
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<HttpResult<List<ContentBean>>>(this) {
+                /*MovieService newService = ServiceFactory.createService(MovieService.class);
+                    newService.getTopMovie(0, 10)
+                    .subscribe(new RxSubscriber<HttpResult<List<ContentBean>>>(this) {
                     // 必须重写
                     @Override
                     public void onNext(HttpResult<List<ContentBean>> listHttpResult) {
@@ -96,17 +102,22 @@ public class MainActivity extends AppCompatActivity {
 
                     // 无需设置可以不用重写
                     @Override
+                    protected void onError(ApiException ex) {
+                        super.onError(ex);
+                        Toast.makeText(MainActivity.this, "onError " + " exception code =" + ex.code + "exception message = " + ex.message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    // 无需设置可以不用重写
+                    @Override
                     public void onCompleted() {
                         super.onCompleted();
                         Toast.makeText(MainActivity.this, "onCompleted", Toast.LENGTH_SHORT).show();
                     }
 
-                    // 无需设置可以不用重写
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        Toast.makeText(MainActivity.this, "错误了" , Toast.LENGTH_SHORT).show();
                     }
-                });
+                });*/
             }
 }

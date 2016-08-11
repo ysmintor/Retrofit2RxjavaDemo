@@ -17,7 +17,7 @@ public class DefaultTransformer<T>
         return observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
-                .compose(new ErrorCheckTransformer<T>())
+                .compose(new CTransformer<T>())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 }

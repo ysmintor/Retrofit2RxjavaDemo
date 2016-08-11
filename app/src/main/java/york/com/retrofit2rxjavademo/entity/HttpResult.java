@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  */
 public class HttpResult<T> {
 
-    // code 为返回的状态码, message 为返回的消息
+    // code 为返回的状态码, message 为返回的消息, 演示的没有这两个字段，考虑到真实的环境中基本包含就在这里写定值
     private int code = 200;
     private String message = "OK";
 

@@ -3,6 +3,7 @@ package york.com.retrofit2rxjavademo.utils;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * Created by zhy on 15/8/17.
@@ -10,7 +11,7 @@ import okhttp3.OkHttpClient;
  */
 public class OkHttpUtils
 {
-    public static final long DEFAULT_MILLISECONDS = 10_000L;
+    public static final long DEFAULT_MILLISECONDS = 10_000L;    // ten seconds
     private volatile static OkHttpUtils mInstance;
     private static OkHttpClient mOkHttpClient;
 
@@ -21,7 +22,10 @@ public class OkHttpUtils
             mOkHttpClient = new OkHttpClient.Builder()
                     .connectTimeout(DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
                     .readTimeout(DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
-                    .addInterceptor(new LoggerInterceptor("TAG")).build();
+                    .addNetworkInterceptor(
+                            new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                    .build();
+//                    .addInterceptor(new LoggerInterceptor("TAG")).build();//zhy的
 
         } else
         {
@@ -30,7 +34,7 @@ public class OkHttpUtils
 
     }
 
-
+    // 由外部提供OkhttpClient
     public static OkHttpUtils initClient(OkHttpClient okHttpClient)
     {
         if (mInstance == null)

@@ -3,6 +3,7 @@ package york.com.retrofit2rxjavademo.http;
 /**
  * Created by liukun on 16/3/10.
  */
+@Deprecated
 public class ApiException2 extends RuntimeException {
 
     public static final int USER_NOT_EXIST = 100;

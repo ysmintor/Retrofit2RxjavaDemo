@@ -10,7 +10,9 @@ import rx.functions.Func1;
 
 /**
  * Created by York on 2016/7/23.
+ * 以前的错误处理
  */
+@Deprecated
 public class ErrorCheckTransformer<T> implements Observable.Transformer<HttpResult<T>, T>{
 
     @Override

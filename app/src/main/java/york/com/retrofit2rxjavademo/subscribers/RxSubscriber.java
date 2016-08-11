@@ -4,9 +4,9 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import york.com.retrofit2rxjavademo.activity.MainActivity;
 import york.com.retrofit2rxjavademo.http.ApiException;
 import york.com.retrofit2rxjavademo.utils.DialogHelper;
+import york.com.retrofit2rxjavademo.utils.NetworkUtil;
 
 /**
  * @author YorkYu
@@ -16,7 +16,7 @@ import york.com.retrofit2rxjavademo.utils.DialogHelper;
  * @Description:
  * @time 2016/8/11 10:54
  */
-public abstract class RxSubscriber<T> extends ErrorSubscriber<T> {
+public abstract class RxSubscriber<T> extends BaseSubscriber<T> {
     public RxSubscriber(Context context) {
         this.mContext = context;
     }
@@ -25,7 +25,14 @@ public abstract class RxSubscriber<T> extends ErrorSubscriber<T> {
     @Override
     public void onStart() {
         super.onStart();
-        DialogHelper.showProgressDlg(mContext, "正在加载数据");
+
+        // if  NetworkAvailable no !   must to call onCompleted
+        if (!NetworkUtil.isNetworkAvailable(mContext)) {
+            Toast.makeText(mContext, "无网络，读取缓存数据", Toast.LENGTH_SHORT).show();
+            onCompleted();
+        } else {
+            DialogHelper.showProgressDlg(mContext, "正在加载数据");
+        }
     }
 
     @Override
