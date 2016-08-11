@@ -3,7 +3,7 @@ package york.com.retrofit2rxjavademo.transformer;
 import android.util.Log;
 
 import york.com.retrofit2rxjavademo.entity.HttpResult;
-import york.com.retrofit2rxjavademo.http.ApiException;
+import york.com.retrofit2rxjavademo.http.ApiException2;
 
 import rx.Observable;
 import rx.functions.Func1;
@@ -21,7 +21,7 @@ public class ErrorCheckTransformer<T> implements Observable.Transformer<HttpResu
                 Log.d("Thread", "call: " + Thread.currentThread().getName());
                 if (httpResult.getCount() == 0) {
                     Log.e("ErrorChecker", "call: " + "count = 0");
-                    throw new ApiException(100);
+                    throw new ApiException2(100);
                 }
                 return  httpResult.getData();
             }

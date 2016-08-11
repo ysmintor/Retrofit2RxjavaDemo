@@ -8,13 +8,7 @@ package york.com.retrofit2rxjavademo.http;
  * @Description:
  * @time 2016/8/11 9:20
  */
-public class ApiException extends Exception {
+public class ServerException extends RuntimeException{
     public int code;
     public String message;
-
-    public ApiException(Throwable throwable, int code) {
-        super(throwable);
-        this.code = code;
-
-    }
 }

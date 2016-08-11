@@ -7,13 +7,33 @@ import com.google.gson.annotations.SerializedName;
  */
 public class HttpResult<T> {
 
+    // code 为返回的状态码, message 为返回的消息
+    private int code = 200;
+    private String message = "OK";
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     private int count;
     private int start;
     private int total;
     private String title;
 
     //用来模仿Data
-    @SerializedName(value = "data", alternate = {"subjects", "data"})
+    @SerializedName(value = "data", alternate = {"subjects"})
     private T data;
 
 

@@ -2,6 +2,7 @@ package york.com.retrofit2rxjavademo.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,13 +12,15 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import york.com.retrofit2rxjavademo.R;
 import york.com.retrofit2rxjavademo.entity.ContentBean;
+import york.com.retrofit2rxjavademo.entity.HttpResult;
 import york.com.retrofit2rxjavademo.http.MovieService;
 import york.com.retrofit2rxjavademo.http.ServiceFactory;
+import york.com.retrofit2rxjavademo.subscribers.RxSubscriber;
 import york.com.retrofit2rxjavademo.subscribers.SubscriberOnNextListener;
-import york.com.retrofit2rxjavademo.transformer.DefaultTransformer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 //                .subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .compose(new ErrorCheckTransformer<List<ContentBean>>())
-                .compose(new DefaultTransformer<List<ContentBean>>())
+/*                .compose(new DefaultTransformer<List<ContentBean>>())
                 .subscribe(new Observer<List<ContentBean>>() {
                     @Override
                     public void onCompleted() {
@@ -79,6 +82,31 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "onNext", Toast.LENGTH_SHORT).show();
                         resultTV.setText("begin >>>>>>>>>>>>>>>>." + subjects.toString());
                     }
+                });*/
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<HttpResult<List<ContentBean>>>(this) {
+                    // 必须重写
+                    @Override
+                    public void onNext(HttpResult<List<ContentBean>> listHttpResult) {
+                        Toast.makeText(MainActivity.this, "onNext", Toast.LENGTH_SHORT).show();
+                        resultTV.setText("begin >>>>>>>>>>>>>>>>." + listHttpResult.toString());
+                        Log.d("main", "onNext: " + listHttpResult.toString());
+                    }
+
+                    // 无需设置可以不用重写
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                        Toast.makeText(MainActivity.this, "onCompleted", Toast.LENGTH_SHORT).show();
+                    }
+
+                    // 无需设置可以不用重写
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        Toast.makeText(MainActivity.this, "错误了" , Toast.LENGTH_SHORT).show();
+                    }
                 });
-    }
+            }
 }
