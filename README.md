@@ -5,8 +5,9 @@
 增加了请求时的进度对话框等，由于上班，有时间来补上这边。英语版也需要重新编写了。
 
 
+![qq](pictures/pic1.png)
 ## English Version
-
+[please click here to see english version.](language/README-EN.md)
 To explain how to retrieve data from non restful response to get the right data.
 
 If you want to retrieve information like below, which is non restful data response, then you can combine Rxjava to decompose the result and get the real part you wanted.
