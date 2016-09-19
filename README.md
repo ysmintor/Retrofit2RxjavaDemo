@@ -53,45 +53,46 @@ To explain how to retrieve data from non restful response to get the right data(
 使用方法：
 
 1. 配置对应的外层实体，例如下面。一般都非标准的REST都是一个数据，一个状态码和一个消息，我就使用了泛型data, 及code 和message.这里有初始值是因为找的接口没有使用这两个字段。你自己的后台字段不同，你可以按需要作修改。
-```java
-{
-		// code 为返回的状态码, message 为返回的消息, 演示的没有这两个字段，考虑到真实的环境中基本包含就在这里写定值
-	    private int code = 0;
-			private String message = "OK";
+	```java
+	{
+			// code 为返回的状态码, message 为返回的消息, 演示的没有这两个字段，考虑到真实的环境中基本包含就在这里写定值
+		    private int code = 0;
+				private String message = "OK";
 
-	    //用来模仿Data
-	    @SerializedName(value = "subjects")
-	    private T data;
-}
-```
+		    //用来模仿Data
+		    @SerializedName(value = "subjects")
+		    private T data;
+	}
+	```
 
 2. 同Retrofit2一样要定义接口，如下。这里仅仅是有get的接口在demo里，其它的Put, Delete, Query等都是一样的。
 
 	`HttpResult`里的类型就是指定泛型data的具体类型。可以使用String， JSONObject，定义的实体等等。
 
 	另外有朋友问题访问参数是JSON对象怎么办 _(Body Paramter JSON Object)_？这其实就是将你的参数设置成一个已经定义的实体，我也给出一个项目中的接口。下面的post就是这种方式。关于请求的REST方式我会在文章后面放出详细的参考，若你不熟悉请参考这些文章。
-```java
+	```java
 
-		@GET("top250")
-    Observable<HttpResult<List<ContentBean>>> getTopMovie(@Query("start") int start, @Query("count") int count);
+			@GET("top250")
+	    Observable<HttpResult<List<ContentBean>>> getTopMovie(@Query("start") int start, @Query("count") int count);
 
-		@POST("user/login")
-    Observable<HttpResult<UserLoginBean>> postLogin(@Body UserLoginRequest request);
-```
+			@POST("user/login")
+	    Observable<HttpResult<UserLoginBean>> postLogin(@Body UserLoginRequest request);
+	```
 
 3. 请求网络。
-直接调用
-```java
-					ServiceFactory.movieApi()
-                        .getTopMovie(1, 10)
-```
 
-使用一个默认的`.compose(new DefaultTransformer<List<ContentBean>>())`可以非常方便地进行转化成了需要的`Observable`。
+	直接调用
+	```java
+						ServiceFactory.movieApi()
+	                        .getTopMovie(1, 10)
+	```
 
-另外准备了常用的subscriber，包含了网络连接的错误处理，例如非200状态，另外是服务端（业务）错误的处理，默认是将错误编码和错误信息在控制台和手机上输出。
-正确的情况下则必须实现。
+	使用一个默认的`.compose(new DefaultTransformer<List<ContentBean>>())`可以非常方便地进行转化成了需要的`Observable`。
 
-建议使用Rxlifecycle防止使用Rxjava内存泄露。
+	另外准备了常用的subscriber，包含了网络连接的错误处理，例如非200状态，另外是服务端（业务）错误的处理，默认是将错误编码和错误信息在控制台和手机上输出。
+	正确的情况下则必须实现。
+
+	建议使用Rxlifecycle防止使用Rxjava内存泄露。
 
 ---
 
