@@ -5,7 +5,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import york.com.retrofit2rxjavademo.http.exception.ApiException;
-import york.com.retrofit2rxjavademo.utils.DialogHelper;
 import york.com.retrofit2rxjavademo.utils.NetworkUtil;
 
 
@@ -17,11 +16,11 @@ import york.com.retrofit2rxjavademo.utils.NetworkUtil;
  * @Description:
  * @time 2016/8/11 10:54
  */
-public abstract class RxSubscriber<T> extends BaseSubscriber<T> {
-    public RxSubscriber(Context context) {
+public abstract class CommonSubscriber<T> extends BaseSubscriber<T> {
+    public CommonSubscriber(Context context) {
         this.mContext = context;
     }
-    private static final String TAG = RxSubscriber.class.getSimpleName();
+    private static final String TAG = CommonSubscriber.class.getSimpleName();
     private Context mContext;
     @Override
     public void onStart() {
@@ -32,20 +31,19 @@ public abstract class RxSubscriber<T> extends BaseSubscriber<T> {
             Toast.makeText(mContext, "当前无网络，请检查网络情况", Toast.LENGTH_SHORT).show();
             onCompleted();
         } else {
-            DialogHelper.showProgressDlg(mContext, "正在加载数据");
+            Log.d(TAG, "network available");
         }
     }
 
     @Override
     public void onCompleted() {
-        DialogHelper.stopProgressDlg();
+        Log.d(TAG, "onCompleted~ ");
     }
 
     @Override
     protected void onError(ApiException ex) {
-        DialogHelper.stopProgressDlg();
-        Log.d(TAG, "onError: " + ex.message + "code: " + ex.code);
-        Toast.makeText(mContext, ex.message , Toast.LENGTH_SHORT).show();
+        Log.e(TAG, "onError: " + ex.message + "code: " + ex.code);
+        Toast.makeText(mContext, ex.message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

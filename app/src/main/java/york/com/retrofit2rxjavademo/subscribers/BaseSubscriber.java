@@ -1,7 +1,7 @@
 package york.com.retrofit2rxjavademo.subscribers;
 
 import rx.Subscriber;
-import york.com.retrofit2rxjavademo.http.ApiException;
+import york.com.retrofit2rxjavademo.http.exception.ApiException;
 
 /**
  * @author YorkYu
@@ -17,7 +17,7 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
         if(e instanceof ApiException){
             onError((ApiException)e);
         }else{
-            onError(new ApiException(e,123));
+            onError(new ApiException(e,1000));
         }
     }
 

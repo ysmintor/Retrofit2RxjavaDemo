@@ -14,11 +14,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import york.com.retrofit2rxjavademo.R;
 import york.com.retrofit2rxjavademo.entity.ContentBean;
-import york.com.retrofit2rxjavademo.http.ApiException;
-import york.com.retrofit2rxjavademo.http.MovieService;
 import york.com.retrofit2rxjavademo.http.ServiceFactory;
+import york.com.retrofit2rxjavademo.http.exception.ApiException;
 import york.com.retrofit2rxjavademo.subscribers.RxSubscriber;
-import york.com.retrofit2rxjavademo.subscribers.SubscriberOnNextListener;
 import york.com.retrofit2rxjavademo.transformer.DefaultTransformer;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,21 +26,12 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.result_TV)
     TextView resultTV;
 
-    private SubscriberOnNextListener getTopMovieOnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-//        getTopMovieOnNext = new SubscriberOnNextListener<List<ContentBean>>() {
-//            @Override
-//            public void onNext(List<ContentBean> subjects) {
-//                resultTV.setText(subjects.toString());
-//            }
-//        };
-
     }
 
     @Override
@@ -59,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.click_me_BN)
     public void onClick() {
-        MovieService newService = ServiceFactory.createService(MovieService.class);
-        newService.getTopMovie(0, 10)
+        ServiceFactory.movieApi()
+                .getTopMovie(0, 10)
                 .compose(new DefaultTransformer<List<ContentBean>>())
                 .subscribe(new RxSubscriber<List<ContentBean>>(this) {
                     // 必须重写
@@ -89,35 +78,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                /*MovieService newService = ServiceFactory.createService(MovieService.class);
-                    newService.getTopMovie(0, 10)
-                    .subscribe(new RxSubscriber<HttpResult<List<ContentBean>>>(this) {
-                    // 必须重写
-                    @Override
-                    public void onNext(HttpResult<List<ContentBean>> listHttpResult) {
-                        Toast.makeText(MainActivity.this, "onNext", Toast.LENGTH_SHORT).show();
-                        resultTV.setText("begin >>>>>>>>>>>>>>>>." + listHttpResult.toString());
-                        Log.d("main", "onNext: " + listHttpResult.toString());
-                    }
 
-                    // 无需设置可以不用重写
-                    @Override
-                    protected void onError(ApiException ex) {
-                        super.onError(ex);
-                        Toast.makeText(MainActivity.this, "onError " + " exception code =" + ex.code + "exception message = " + ex.message, Toast.LENGTH_SHORT).show();
-                    }
-
-                    // 无需设置可以不用重写
-                    @Override
-                    public void onCompleted() {
-                        super.onCompleted();
-                        Toast.makeText(MainActivity.this, "onCompleted", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                    }
-                });*/
             }
 }

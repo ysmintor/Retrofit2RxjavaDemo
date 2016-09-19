@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Retrofit2RxjavaDemo</string>
+    <string name="rxsubscriber">RxSubscriber</string>
+    <string name="commonsubscriber">CommonSubscriber</string>
 </resources>

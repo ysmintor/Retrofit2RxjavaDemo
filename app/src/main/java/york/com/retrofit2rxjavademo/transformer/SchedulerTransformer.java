@@ -18,4 +18,22 @@ public class SchedulerTransformer<T> implements Observable.Transformer<T, T> {
     public static <T> SchedulerTransformer<T> create() {
         return new SchedulerTransformer<>();
     }
+
+    private static SchedulerTransformer instance = null;
+
+    private SchedulerTransformer(){
+    }
+    /**
+     * 双重校验锁单例(线程安全)
+     */
+    public static<T> SchedulerTransformer<T> getInstance() {
+        if (instance == null) {
+            synchronized (SchedulerTransformer.class) {
+                if (instance == null) {
+                    instance = new SchedulerTransformer<>();
+                }
+            }
+        }
+        return instance;
+    }
 }

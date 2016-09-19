@@ -9,24 +9,50 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".activity.MainActivity">
 
-    <Button
-        android:id="@+id/click_me_BN"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <LinearLayout
         android:layout_alignParentBottom="true"
-        android:padding="5dp"
-        android:text="点我"
-        android:textSize="16sp"/>
-    <ScrollView
-        android:layout_above="@id/click_me_BN"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_rxsubscriber"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:padding="5dp"
+            android:text="@string/rxsubscriber"
+            android:textSize="16sp"/>
+        <Button
+            android:id="@+id/btn_common"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:padding="5dp"
+            android:text="@string/commonsubscriber"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/scrollView">
         <TextView
             android:id="@+id/result_TV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Just click to see content, please ensure internet is ok!"
+            android:text="click rxsubscriber to see content with dialog!"
             android:textSize="16sp"/>
     </ScrollView>
+
+    <TextView
+        android:layout_marginTop="100dp"
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="click commonsubscriber to see content without dialog!"
+        android:textSize="16sp"
+        android:layout_alignParentStart="true"/>
 
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package york.com.retrofit2rxjavademo.http;
+package york.com.retrofit2rxjavademo.http.exception;
 
 /**
  * @author YorkYu
@@ -8,13 +8,14 @@ package york.com.retrofit2rxjavademo.http;
  * @Description:
  * @time 2016/8/11 9:20
  */
-public class ApiException extends Exception {
+public class ServerException extends RuntimeException{
     // 异常处理，为速度，不必要设置getter和setter
     public int code;
     public String message;
 
-    public ApiException(Throwable throwable, int code) {
-        super(throwable);
+    public ServerException(String message, int code) {
+        super(message);
         this.code = code;
+        this.message = message;
     }
 }
