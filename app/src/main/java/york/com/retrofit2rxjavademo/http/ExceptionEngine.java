@@ -15,14 +15,7 @@ import york.com.retrofit2rxjavademo.http.exception.ApiException;
 import york.com.retrofit2rxjavademo.http.exception.ErrorType;
 import york.com.retrofit2rxjavademo.http.exception.ServerException;
 
-/**
- * @author YorkYu
- * @version V1.0
- * @Project: Supplier
- * @Package mall.b2b.meixun.com.supplier.net
- * @Description:
- * @time 2016/8/11 9:19
- */
+
 public class ExceptionEngine {
     //对应HTTP的状态码
     private static final int UNAUTHORIZED = 401;
