@@ -10,8 +10,6 @@ To explain how to retrieve data from non restful response to get the right data(
 
 ## 中文版
 
-近期更新了错误处理方面，更加全面地处理了http的错误和服务返回的错误类型，并直接向用户提示。
-增加了请求时的进度对话框等，由于上班，有时间来补上这边。英语版也需要重新编写了。
 
 ### 效果展示
 
@@ -47,14 +45,7 @@ To explain how to retrieve data from non restful response to get the right data(
 
 而Retrofit2 请求的结果一般都分为header 和Body。当然使用使用Rxjava后，则可以实现获取这个result的结果。当是单个实体的时候，在onNext中就直接得到这个结果，如果是一个数组的时候，则是List<Entity> 这种形式。
 
-而如果
 
-
-
-
-
-
-一定是有code状态码和返回信息的，我之前的用法和教程一样，说将服务器返回的结果复制下来直接在AS上面利用GsonFormat转化就OK了，确实很方便，但是这样下来每个bean里面都会有重复的erroe_code和message或者服务器返回其他，所以我是这样做的：
 
 
 ----------
