@@ -21,7 +21,7 @@ public class ErrorTransformer<T> implements Observable.Transformer<HttpResult<T>
             public T call(HttpResult<T> httpResult) {
                 // 通过对返回码进行业务判断决定是返回错误还是正常取数据
 //                if (httpResult.getCode() != 200) throw new RuntimeException(httpResult.getMessage());
-                if (httpResult.getCode() != ErrorType.SUCCESS) throw new ServerException(httpResult.getMessage(), httpResult.getCode());
+                if (httpResult.getCode() != ErrorType.SUCCESS || httpResult.getCode() != ErrorType.SUCCESS) throw new ServerException(httpResult.getMessage(), httpResult.getCode());
                 return httpResult.getData();
             }
         }).onErrorResumeNext(new Func1<Throwable, Observable<? extends T>>() {

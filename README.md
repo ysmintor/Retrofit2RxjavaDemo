@@ -43,7 +43,7 @@ To explain how to retrieve data from non restful response to get the right data(
 }
 ```
 
-而Retrofit2 请求的结果一般都分为header 和Body。当然使用使用Rxjava后，则可以实现获取这个result的结果。当是单个实体的时候，在onNext中就直接得到这个结果，如果是一个数组的时候，则是List<Entity> 这种形式。
+而Retrofit2 请求的结果一般都分为Header 和Body。当然使用使用Rxjava后，则可以实现获取这个result的结果。当是单个实体的时候，在onNext中就直接得到这个结果，如果是一个数组的时候，则是返回List<Entity> 这种形式。
 
 
 
@@ -52,7 +52,7 @@ To explain how to retrieve data from non restful response to get the right data(
 
 使用方法：
 
-1. 配置对应的外层实体，例如下面。一般都非标准的REST都是一个数据，一个状态码和一个消息，我就使用了泛型data, 及code 和message.这里有初始值是因为找的接口没有使用这两个字段。你自己的后台字段不同，你可以按需要作修改。
+1. 配置对应的外层实体，例如下面。开发中一般都非标准的REST都是一个数据(百度开放平台的接口就基本都是这种形式)，一个状态码和一个消息。其中data的类型是泛型，可以在生成请求的api指定实际返回的类型，如果为空的情况可以使用String。 而code 和message是对应于服务端定义的代码code和返回的错误信息。Demo里有初始值是因为找的接口没有使用这两个字段，但我想模拟这类情形而设置的。如果你的后台后台字段不同，你可以按需要修改这个HttpResult的相应字段。
 	```java
 	{
 			// code 为返回的状态码, message 为返回的消息, 演示的没有这两个字段，考虑到真实的环境中基本包含就在这里写定值
@@ -207,6 +207,12 @@ public class ExceptionEngine {
 
 }
 ```
+
+## Update
+	2016-10-13
+	修正了服务端code没有处理，返回为错误时认为是json实体解析问题。
+	`if (httpResult.getCode() != ErrorType.SUCCESS || httpResult.getCode() != ErrorType.SUCCESS)`
+
 
 ## Thanks
 - [你真的会用Retrofit2吗?Retrofit2完全教程](http://www.jianshu.com/p/308f3c54abdd)
