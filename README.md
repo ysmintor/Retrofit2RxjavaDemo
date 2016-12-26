@@ -209,9 +209,26 @@ public class ExceptionEngine {
 ```
 
 ## Update
+
+  2016-12-26
+	解决了执行onCompleted()之后执行onError()的问题
+  >```java
+	if (!isUnsubscribed())
+	{
+      unsubscribe();
+  }
+	```
+
+
+---
+
+
 	2016-10-13
 	修正了服务端code没有处理，返回为错误时认为是json实体解析问题。
-	`if (httpResult.getCode() != ErrorType.SUCCESS || httpResult.getCode() != ErrorType.SUCCESS)`
+
+>	``` java
+		if (httpResult.getCode() != ErrorType.SUCCESS || httpResult.getCode() != ErrorType.SUCCESS)
+	```
 
 
 ## Thanks
