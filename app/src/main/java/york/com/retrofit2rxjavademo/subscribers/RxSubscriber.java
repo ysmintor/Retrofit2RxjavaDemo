@@ -31,6 +31,11 @@ public abstract class RxSubscriber<T> extends BaseSubscriber<T> {
         if (!NetworkUtil.isNetworkAvailable(mContext)) {
             Toast.makeText(mContext, "当前无网络，请检查网络情况", Toast.LENGTH_SHORT).show();
             onCompleted();
+
+            // 执行complete后取消注册以免走onError
+            if (!isUnsubscribed()) {
+                unsubscribe();
+            }
         } else {
             DialogHelper.showProgressDlg(mContext, "正在加载数据");
         }
@@ -44,7 +49,7 @@ public abstract class RxSubscriber<T> extends BaseSubscriber<T> {
     @Override
     protected void onError(ApiException ex) {
         DialogHelper.stopProgressDlg();
-        Log.d(TAG, "onError: " + ex.message + "code: " + ex.code);
+        Log.e(TAG, "onError: " + ex.message + "code: " + ex.code);
         Toast.makeText(mContext, ex.message , Toast.LENGTH_SHORT).show();
     }
 
