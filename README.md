@@ -16,7 +16,7 @@ To explain how to retrieve data from non restful response to get the right data(
 ![rx](screenshots/rx.gif)
 ![common](screenshots/common.gif)
 
-本文主要介绍了使用Retrofit2配合Rxjava 来处理非restful的网络请求结果。一般而言请求的非REST结果如下：
+本文主要介绍了使用Retrofit2配合Rxjava[这里指Rxjava1, 暂时未适配Rxjava2] 来处理非restful的网络请求结果。一般而言请求的非REST结果如下：
 ```json
 {
 	"status": 1,    //请求返回状态码

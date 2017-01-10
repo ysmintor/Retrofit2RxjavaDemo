@@ -32,7 +32,7 @@ public abstract class RxSubscriber<T> extends BaseSubscriber<T> {
             Toast.makeText(mContext, "当前无网络，请检查网络情况", Toast.LENGTH_SHORT).show();
             onCompleted();
 
-            // 执行complete后取消注册以免走onError
+            // 无网络执行complete后取消注册防调用onError
             if (!isUnsubscribed()) {
                 unsubscribe();
             }
