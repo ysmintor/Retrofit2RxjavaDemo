@@ -1,5 +1,5 @@
 # Retrofit2RxjavaDemo
-
+[![Build Status](https://travis-ci.org/ysmintor/Retrofit2RxjavaDemo.svg?branch=master)](https://travis-ci.org/ysmintor/Retrofit2RxjavaDemo)
 ***
 
 ## English Version
