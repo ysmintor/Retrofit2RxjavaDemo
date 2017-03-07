@@ -210,13 +210,32 @@ public class ExceptionEngine {
 
 ## Update
 
+
+   2017-03-07
+	 添加处理非REST接口在token失效时或code异常时，错误信息放在data字段的解析办法处理。
+	 >```json
+	     {
+			  code:-1
+				data:"token失效"
+		   }
+
+			 {
+			  code:0
+				data:{name:"xiaoming", age:23}
+		   }
+	  ````
+		、
+
+    针对上面的JSON都要在同一个接口里处理，解决办法都是两次解析的办法，第一次取到code并且判断，不是期望的值进行处理。期望的值可按原路处理。这里采用了修改GsonConverter的办法。
+---
+
   2016-12-26
 	解决了执行onCompleted()之后执行onError()的问题
   >```java
 	if (!isUnsubscribed())
-	{
+	    {
       unsubscribe();
-  }
+      }
 	```
 
 
@@ -226,12 +245,13 @@ public class ExceptionEngine {
 	2016-10-13
 	修正了服务端code没有处理，返回为错误时认为是json实体解析问题。
 
->	``` java
+   >``` java
 		if (httpResult.getCode() != ErrorType.SUCCESS || httpResult.getCode() != ErrorType.SUCCESS)
 	```
 
 
 ## Thanks
+- [Retrofit自定义GsonConverter处理请求错误异常处理](http://blog.csdn.net/jdsjlzx/article/details/52145131)
 - [你真的会用Retrofit2吗?Retrofit2完全教程](http://www.jianshu.com/p/308f3c54abdd)
 - [Error handling in RxJava](http://blog.danlew.net/2015/12/08/error-handling-in-rxjava/)
 - [Android基于Retrofit2.0 封装的超好用的RetrofitClient工具类]( http://www.jianshu.com/p/29c2a9ac5abf)
