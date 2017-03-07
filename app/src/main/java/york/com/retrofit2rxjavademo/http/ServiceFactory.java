@@ -7,6 +7,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import york.com.retrofit2rxjavademo.gsonconverter.CustomGsonConverterFactory;
 import york.com.retrofit2rxjavademo.utils.OkHttpUtils;
 
 /**
@@ -14,8 +15,9 @@ import york.com.retrofit2rxjavademo.utils.OkHttpUtils;
  */
 public class ServiceFactory {
 //    public static final String OLD_BASE_URL = "https://liangfeizc.com/gw/oauthentry/";
-//    public static final String NEW_BASE_URL = "https://liangfei.me/api/oauthentry/";
-    public static final String BASE_URL = "https://api.douban.com/v2/movie/";
+    public static final String NEW_BASE_URL = "https://liangfei.me/api/oauthentry/";
+//    public static final String BASE_URL = "https://api.douban.com/v2/movie/";
+    public static final String BASE_URL = "http://rap.taobao.org/mockjsdata/13886/";
     private static final int DEFAULT_TIMEOUT = 10;
     private static Retrofit sRetrefit;
     private static OkHttpClient sClient;
@@ -39,7 +41,8 @@ public class ServiceFactory {
          sRetrefit = new Retrofit.Builder()
                 .client(sClient)
                 .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+//                .addConverterFactory(GsonConverterFactory.create())
+                 .addConverterFactory(CustomGsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
     }
@@ -113,5 +116,9 @@ public class ServiceFactory {
      */
     public static MovieService movieApi() {
         return ServiceFactory.createService(MovieService.class);
+    }
+
+    public static MockApi mockApi() {
+        return ServiceFactory.createService(MockApi.class);
     }
 }

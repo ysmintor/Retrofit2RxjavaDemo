@@ -35,7 +35,11 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        MockDataActivity.start(this);
+    }
 
     @OnClick({R.id.btn_rxsubscriber, R.id.btn_common})
     public void onClick(View view) {
