@@ -7,7 +7,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import york.com.retrofit2rxjavademo.gsonconverter.CustomGsonConverterFactory;
 import york.com.retrofit2rxjavademo.utils.OkHttpUtils;
 
 /**
@@ -42,15 +41,21 @@ public class ServiceFactory {
          sRetrefit = new Retrofit.Builder()
                 .client(sClient)
                 .baseUrl(BASE_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-                 .addConverterFactory(CustomGsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
     }
 
     public static <T> T createService(Class<T> serviceClazz) {
-
         return sRetrefit.create(serviceClazz);
+    }
+
+    public static <T> T createService(Retrofit retrofit, Class<T> serviceClazz) {
+        return retrofit.create(serviceClazz);
+    }
+
+    public static OkHttpClient getsClient() {
+        return sClient;
     }
 
     /**
@@ -121,5 +126,14 @@ public class ServiceFactory {
 
     public static MockApi mockApi() {
         return ServiceFactory.createService(MockApi.class);
+    }
+
+    /**
+     * 解决返回message在data字段
+     * @param retrofit
+     * @return
+     */
+    public static MockApi mockApi2(Retrofit retrofit) {
+        return ServiceFactory.createService(retrofit, MockApi.class);
     }
 }

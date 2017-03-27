@@ -17,6 +17,7 @@ import java.nio.charset.Charset;
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
+import york.com.retrofit2rxjavademo.http.exception.ErrorType;
 import york.com.retrofit2rxjavademo.http.exception.ServerException;
 
 import static okhttp3.internal.Util.UTF_8;
@@ -44,10 +45,11 @@ final class CustomGsonResponseBodyConverter<T> implements Converter<ResponseBody
         String response = value.string();
         JsonElement jsonElement = jsonParser.parse(response);
         int parseCode = jsonElement.getAsJsonObject().get("code").getAsInt();
-
-        if (parseCode == -1) {
+        //
+        if (parseCode != ErrorType.SUCCESS) {
             value.close();
-            throw new ServerException("原因", -1);
+            String msg = jsonElement.getAsJsonObject().get("data").getAsString();
+            throw new ServerException(msg, parseCode);
         } else {
 
             MediaType contentType = value.contentType();

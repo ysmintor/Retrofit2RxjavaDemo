@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onNext(MockBean mockBean) {
                         Toast.makeText(mContext, "onNext", Toast.LENGTH_SHORT).show();
-                        resultOne.setText("Single bean begin >>>>>>>>>>>>>>>>." + mockBean);
+                        resultOne.setText("Single bean begin >>>>>>>>>>>>>>>>.\n" + mockBean);
                         Log.d("main", "onNext: " + mockBean);
                     }
                 });

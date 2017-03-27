@@ -8,17 +8,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import york.com.retrofit2rxjavademo.R;
 import york.com.retrofit2rxjavademo.entity.MockBean;
+import york.com.retrofit2rxjavademo.gsonconverter.CustomGsonConverterFactory;
 import york.com.retrofit2rxjavademo.http.ServiceFactory;
 import york.com.retrofit2rxjavademo.subscribers.RxSubscriber;
 import york.com.retrofit2rxjavademo.transformer.DefaultTransformer;
+
+import static york.com.retrofit2rxjavademo.http.ServiceFactory.BASE_URL;
 
 public class MockDataActivity extends AppCompatActivity {
     private TextView mTv;
     private Button mBtn1;
     private Button mBtn2;
     private Context mContext;
+    private Retrofit sRetrefit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,11 +35,21 @@ public class MockDataActivity extends AppCompatActivity {
         mBtn1 = (Button) findViewById(R.id.button);
         mBtn2 = (Button) findViewById(R.id.button2);
 
+
+        // 使用自定义Converter处理message在错误时返回在data字段
+        sRetrefit = new Retrofit.Builder()
+                .client(ServiceFactory.getsClient())
+                .baseUrl(BASE_URL)
+                // 使用自定义Converter处理message在错误时返回在data字段
+                .addConverterFactory(CustomGsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+
         mBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ServiceFactory.mockApi()
-                        .getMock()
+                ServiceFactory.mockApi2(sRetrefit)
+                        .getMock3()
                         .compose(new DefaultTransformer<MockBean>())
                         .subscribe(new RxSubscriber<MockBean>(mContext) {
                             @Override
@@ -46,8 +63,8 @@ public class MockDataActivity extends AppCompatActivity {
         mBtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ServiceFactory.mockApi()
-                        .getMock2()
+                ServiceFactory.mockApi2(sRetrefit)
+                        .getMock4()
                         .compose(new DefaultTransformer<MockBean>())
                         .subscribe(new RxSubscriber<MockBean>(mContext) {
                             @Override

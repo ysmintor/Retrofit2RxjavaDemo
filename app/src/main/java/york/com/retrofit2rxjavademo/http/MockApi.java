@@ -16,11 +16,8 @@ import york.com.retrofit2rxjavademo.entity.MockBean;
  * @time 2017/3/7 15:38
  */
 public interface MockApi {
-    @GET("test")
-    Observable<HttpResult<MockBean>> getMock();
-//
-//    @GET("user/login")
-//    Observable<HttpResult<MockBean>> getMock2();
+    @GET("mock3")
+    Observable<HttpResult<MockBean>> getMock3();
 
     @GET("mock1")
     Observable<HttpResult<List<MockBean>>> getMock1();
