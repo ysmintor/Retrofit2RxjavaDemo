@@ -5,130 +5,100 @@ package york.com.retrofit2rxjavademo.entity;
  * @version V1.0
  * @Project: Retrofit2RxjavaDemo
  * @Package york.com.retrofit2rxjavademo.entity
- * @Description:
- * @time 2017/3/7 15:39
+ * @Description:    MockBean
+ * @time 2017/3/27 10:54
  */
 public class MockBean {
     /**
-     * departmentsName : sdf
-     * technicalTitleName : sdf
-     * headPic : sdf
-     * description : sdf
-     * accountId : 26
-     * signature : sdf
-     * technicalTitleCode : sdf
-     * doctorId : 26
-     * provinceId : 123
-     * hospitalId : 12
-     * departmentsId : 345
-     * name : sd
-     * token : jsdfhskjfhsofj
-     * hospitalName : 234e
-     * provinceName : sdf
+     * address : 北京市海淀区清华大学
+     * website : www.tsinghua.edu.cn
+     * email : zsb@mail.tsinghua.edu.cn
+     * parent : 教育部
+     * type :  211 985
+     * phone : 010-62770334;010-62782051
+     * info : 院士：68人 博士点：198个 硕士点：181个
+     * city : 北京
+     * name : 清华大学
+     * profile : 清华简历清华简历清华简历清华简历
+     * img : http://img.jidichong.com/school/3.png
+     * zipcode : 01022
      */
 
-    private String departmentsName;
-    private String technicalTitleName;
-    private String headPic;
-    private String description;
-    private int accountId;
-    private String signature;
-    private String technicalTitleCode;
-    private int doctorId;
-    private int provinceId;
-    private int hospitalId;
-    private int departmentsId;
+    private String address;
+    private String website;
+    private String email;
+    private String parent;
+    private String type;
+    private String phone;
+    private String info;
+    private String city;
     private String name;
-    private String token;
-    private String hospitalName;
-    private String provinceName;
+    private String profile;
+    private String img;
+    private String zipcode;
 
-    public String getDepartmentsName() {
-        return departmentsName;
+    public String getAddress() {
+        return address;
     }
 
-    public void setDepartmentsName(String departmentsName) {
-        this.departmentsName = departmentsName;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getTechnicalTitleName() {
-        return technicalTitleName;
+    public String getWebsite() {
+        return website;
     }
 
-    public void setTechnicalTitleName(String technicalTitleName) {
-        this.technicalTitleName = technicalTitleName;
+    public void setWebsite(String website) {
+        this.website = website;
     }
 
-    public String getHeadPic() {
-        return headPic;
+    public String getEmail() {
+        return email;
     }
 
-    public void setHeadPic(String headPic) {
-        this.headPic = headPic;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getDescription() {
-        return description;
+    public String getParent() {
+        return parent;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setParent(String parent) {
+        this.parent = parent;
     }
 
-    public int getAccountId() {
-        return accountId;
+    public String getType() {
+        return type;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getSignature() {
-        return signature;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setSignature(String signature) {
-        this.signature = signature;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public String getTechnicalTitleCode() {
-        return technicalTitleCode;
+    public String getInfo() {
+        return info;
     }
 
-    public void setTechnicalTitleCode(String technicalTitleCode) {
-        this.technicalTitleCode = technicalTitleCode;
+    public void setInfo(String info) {
+        this.info = info;
     }
 
-    public int getDoctorId() {
-        return doctorId;
+    public String getCity() {
+        return city;
     }
 
-    public void setDoctorId(int doctorId) {
-        this.doctorId = doctorId;
-    }
-
-    public int getProvinceId() {
-        return provinceId;
-    }
-
-    public void setProvinceId(int provinceId) {
-        this.provinceId = provinceId;
-    }
-
-    public int getHospitalId() {
-        return hospitalId;
-    }
-
-    public void setHospitalId(int hospitalId) {
-        this.hospitalId = hospitalId;
-    }
-
-    public int getDepartmentsId() {
-        return departmentsId;
-    }
-
-    public void setDepartmentsId(int departmentsId) {
-        this.departmentsId = departmentsId;
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getName() {
@@ -139,48 +109,45 @@ public class MockBean {
         this.name = name;
     }
 
-    public String getToken() {
-        return token;
+    public String getProfile() {
+        return profile;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 
-    public String getHospitalName() {
-        return hospitalName;
+    public String getImg() {
+        return img;
     }
 
-    public void setHospitalName(String hospitalName) {
-        this.hospitalName = hospitalName;
+    public void setImg(String img) {
+        this.img = img;
     }
 
-    public String getProvinceName() {
-        return provinceName;
+    public String getZipcode() {
+        return zipcode;
     }
 
-    public void setProvinceName(String provinceName) {
-        this.provinceName = provinceName;
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
     }
 
     @Override
     public String toString() {
         return "MockBean{" +
-                "departmentsName='" + departmentsName + '\'' +
-                ", technicalTitleName='" + technicalTitleName + '\'' +
-                ", headPic='" + headPic + '\'' +
-                ", description='" + description + '\'' +
-                ", accountId=" + accountId +
-                ", signature='" + signature + '\'' +
-                ", technicalTitleCode='" + technicalTitleCode + '\'' +
-                ", doctorId=" + doctorId +
-                ", provinceId=" + provinceId +
-                ", hospitalId=" + hospitalId +
-                ", departmentsId=" + departmentsId +
+                "address='" + address + '\'' +
+                ", website='" + website + '\'' +
+                ", email='" + email + '\'' +
+                ", parent='" + parent + '\'' +
+                ", type='" + type + '\'' +
+                ", phone='" + phone + '\'' +
+                ", info='" + info + '\'' +
+                ", city='" + city + '\'' +
                 ", name='" + name + '\'' +
-                ", token='" + token + '\'' +
-                ", hospitalName='" + hospitalName + '\'' +
-                ", provinceName='" + provinceName + '\'' +
+                ", profile='" + profile + '\'' +
+                ", img='" + img + '\'' +
+                ", zipcode='" + zipcode + '\'' +
                 '}';
     }
 }

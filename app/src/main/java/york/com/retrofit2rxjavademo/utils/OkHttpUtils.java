@@ -24,8 +24,8 @@ public class OkHttpUtils
                     .readTimeout(DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
                     .addNetworkInterceptor(
                             new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                    .retryOnConnectionFailure(true)
                     .build();
-//                    .addInterceptor(new LoggerInterceptor("TAG")).build();//zhy的
 
         } else
         {

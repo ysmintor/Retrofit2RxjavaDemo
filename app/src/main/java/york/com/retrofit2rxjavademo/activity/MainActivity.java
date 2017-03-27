@@ -1,5 +1,6 @@
 package york.com.retrofit2rxjavademo.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,7 +15,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import york.com.retrofit2rxjavademo.R;
-import york.com.retrofit2rxjavademo.entity.ContentBean;
+import york.com.retrofit2rxjavademo.entity.MockBean;
 import york.com.retrofit2rxjavademo.http.ServiceFactory;
 import york.com.retrofit2rxjavademo.http.exception.ApiException;
 import york.com.retrofit2rxjavademo.subscribers.CommonSubscriber;
@@ -22,10 +23,9 @@ import york.com.retrofit2rxjavademo.subscribers.RxSubscriber;
 import york.com.retrofit2rxjavademo.transformer.DefaultTransformer;
 
 public class MainActivity extends AppCompatActivity {
-
+    private static String TAG = "MainActivity";
     @Bind(R.id.tv_result_one)
     TextView resultOne;
-
     @Bind(R.id.tv_result_two)
     TextView resultTwo;
     @Bind(R.id.btn_rxsubscriber)
@@ -34,17 +34,17 @@ public class MainActivity extends AppCompatActivity {
     Button mBtnCommon;
     @Bind(R.id.btn_converter)
     Button mBtnConverter;
-
+    private Context mContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        mContext = this;
+        Log.w(TAG, "onCreate: aa" );
     }
 
-
-
-    @OnClick({R.id.btn_rxsubscriber, R.id.btn_common, R.id.btn_converter})
+    @OnClick({R.id.btn_rxsubscriber, R.id.btn_common, R.id.btn_converter, R.id.btn_error})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_rxsubscriber:
@@ -56,69 +56,65 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btn_converter:
                 MockDataActivity.start(this);
                 break;
+            case R.id.btn_error:
+                showError();
+                break;
         }
     }
-
+    // Example use with CommonSubscriber which does not contain progress bar
     private void withoutDialog() {
-        ServiceFactory.movieApi()
-                .getTopMovie(1, 10)
-                .compose(new DefaultTransformer<List<ContentBean>>())
-                .subscribe(new CommonSubscriber<List<ContentBean>>(this) {
+        ServiceFactory.mockApi()
+                .getMock1()
+                .compose(new DefaultTransformer<List<MockBean>>())
+                .subscribe(new CommonSubscriber<List<MockBean>>(mContext) {
                     // 必须重写
                     @Override
-                    public void onNext(List<ContentBean> contentBeen) {
-                        Toast.makeText(MainActivity.this, "onNext", Toast.LENGTH_SHORT).show();
-                        resultTwo.setText("begin >>>>>>>>>>>>>>>>." + contentBeen);
-                        Log.d("main", "onNext: " + contentBeen);
-                        Toast.makeText(MainActivity.this, "onNext content = " + contentBeen, Toast.LENGTH_SHORT).show();
+                    public void onNext(List<MockBean> mockBeen) {
+                        Toast.makeText(mContext, "onNext", Toast.LENGTH_SHORT).show();
+                        resultTwo.setText("begin >>>>>>>>>>>>>>>>.\n" + mockBeen);
+                        Log.d("main", "onNext: " + mockBeen);
                     }
 
-
-                    // 无需设置可以不用重写
-                    // !!!!注意参数为ApiException 类型，要不要写在Throwable那个了
+                    // 若无自定义的需求可以不用重写
+                    // !!!!注意参数为ApiException 类型
                     @Override
                     protected void onError(ApiException ex) {
                         super.onError(ex);
-                        Toast.makeText(MainActivity.this, "onError " + " exception code =" + ex.code + "exception message = " + ex.message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "onError " + " exception code =" + ex.code + "exception message = " + ex.message, Toast.LENGTH_SHORT).show();
                     }
 
-                    // 无需设置可以不用重写
+                    // 若无自定义的需求可以不用重写
                     @Override
                     public void onCompleted() {
                         super.onCompleted();
-                        Toast.makeText(MainActivity.this, "onCompleted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "onCompleted", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+    // Example use with RxSubscriber which contains progress bar
+    private void withDialog() {
+        ServiceFactory.mockApi()
+                .getMock4()
+                .compose(new DefaultTransformer<MockBean>())
+                .subscribe(new RxSubscriber<MockBean>(mContext) {
+                    // 必须重写
+                    @Override
+                    public void onNext(MockBean mockBean) {
+                        Toast.makeText(mContext, "onNext", Toast.LENGTH_SHORT).show();
+                        resultOne.setText("Single bean begin >>>>>>>>>>>>>>>>." + mockBean);
+                        Log.d("main", "onNext: " + mockBean);
                     }
                 });
     }
 
-    private void withDialog() {
-        ServiceFactory.movieApi()
-                .getTopMovie(0, 10)
-                .compose(new DefaultTransformer<List<ContentBean>>())
-                .subscribe(new RxSubscriber<List<ContentBean>>(this) {
-                    // 必须重写
+    private void showError() {
+        ServiceFactory.mockApi()
+                .getMock2()
+                .compose(new DefaultTransformer<MockBean>())
+                .subscribe(new CommonSubscriber<MockBean>(mContext) {
                     @Override
-                    public void onNext(List<ContentBean> contentBeen) {
-                        Toast.makeText(MainActivity.this, "onNext", Toast.LENGTH_SHORT).show();
-                        resultOne.setText("begin >>>>>>>>>>>>>>>>." + contentBeen);
-                        Log.d("main", "onNext: " + contentBeen);
-                        Toast.makeText(MainActivity.this, "onNext content = " + contentBeen, Toast.LENGTH_SHORT).show();
-                    }
-
-
-                    // 无需设置可以不用重写
-                    // !!!!注意参数为ApiException 类型，要不要写在Throwable那个了
-                    @Override
-                    protected void onError(ApiException ex) {
-                        super.onError(ex);
-                        Toast.makeText(MainActivity.this, "onError " + " exception code =" + ex.code + "exception message = " + ex.message, Toast.LENGTH_SHORT).show();
-                    }
-
-                    // 无需设置可以不用重写
-                    @Override
-                    public void onCompleted() {
-                        super.onCompleted();
-                        Toast.makeText(MainActivity.this, "onCompleted", Toast.LENGTH_SHORT).show();
+                    public void onNext(MockBean mockBean) {
+                        resultOne.setText("Single bean begin >>>>>>>>>>>>>>>>." + mockBean);
                     }
                 });
     }

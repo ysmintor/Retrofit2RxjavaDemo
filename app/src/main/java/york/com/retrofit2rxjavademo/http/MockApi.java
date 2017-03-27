@@ -1,5 +1,7 @@
 package york.com.retrofit2rxjavademo.http;
 
+import java.util.List;
+
 import retrofit2.http.GET;
 import rx.Observable;
 import york.com.retrofit2rxjavademo.entity.HttpResult;
@@ -16,8 +18,17 @@ import york.com.retrofit2rxjavademo.entity.MockBean;
 public interface MockApi {
     @GET("test")
     Observable<HttpResult<MockBean>> getMock();
+//
+//    @GET("user/login")
+//    Observable<HttpResult<MockBean>> getMock2();
 
-    @GET("user/login")
+    @GET("mock1")
+    Observable<HttpResult<List<MockBean>>> getMock1();
+
+    @GET("mock4")
+    Observable<HttpResult<MockBean>> getMock4();
+
+    @GET("mock2")
     Observable<HttpResult<MockBean>> getMock2();
 }
 

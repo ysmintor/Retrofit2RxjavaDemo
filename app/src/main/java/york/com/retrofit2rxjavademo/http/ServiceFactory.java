@@ -17,7 +17,8 @@ public class ServiceFactory {
 //    public static final String OLD_BASE_URL = "https://liangfeizc.com/gw/oauthentry/";
     public static final String NEW_BASE_URL = "https://liangfei.me/api/oauthentry/";
 //    public static final String BASE_URL = "https://api.douban.com/v2/movie/";
-    public static final String BASE_URL = "http://rap.taobao.org/mockjsdata/13886/";
+//    public static final String BASE_URL = "http://rap.taobao.org/mockjsdata/13886/";
+    public static final String BASE_URL = "http://rap.taobao.org/mockjsdata/15987/";
     private static final int DEFAULT_TIMEOUT = 10;
     private static Retrofit sRetrefit;
     private static OkHttpClient sClient;
