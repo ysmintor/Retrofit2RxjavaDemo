@@ -277,8 +277,6 @@ public T convert(ResponseBody value) throws IOException {
 
 针对上面的JSON都要在同一个接口里处理，解决办法都是两次解析的办法，第一次取到code并且判断，不是期望的值进行处理。期望的值可按原路处理。这里采用了修改GsonConverter的办法。
 
---------------------
-
 ### 2016-12-26
 	解决了执行onCompleted()之后执行onError()的问题
 ```java
