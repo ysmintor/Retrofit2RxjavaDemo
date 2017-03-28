@@ -17,7 +17,8 @@
 {
 	"code": 0,    //请求返回状态码 0表示成功，其它则为对应的错误类型
 	"msg": "请求成功",    //请求返回状态
-	"data": {    //返回结果
+	"data":
+	{    //返回结果
 			"phone": "010-62770334;010-62782051",    //电话
 			"website": "www.tsinghua.edu.cn",    //官网
 			"email": "zsb@mail.tsinghua.edu.cn",    //邮箱
@@ -30,7 +31,6 @@
 			"profile": "xasd",   //简介
 			"info": "院士：68人 博士点：198个 硕士点：181个",    //说明
 			"city": "北京"   //所在省市
-		}
 	}
 }
 ```
@@ -44,88 +44,89 @@
 
 使用方法：
 
-1. 配置对应的外层实体，例如下面。开发中一般都非标准的REST都是一个数据(百度开放平台的接口就基本都是这种形式)，一个状态码和一个消息。其中data的类型是泛型，可以在生成请求的api指定实际返回的类型，如果为空的情况可以使用String。 而code 和message是对应于服务端定义的代码code和返回的错误信息。如果你的后台后台字段不同，你可以按需要修改这个HttpResult的相应字段。
+### 1. 配置对应的外层实体。
 
-	```java
-		{
-				// code 为返回的状态码, message 为返回的消息, 演示的没有这两个字段，考虑到真实的环境中基本包含就在这里写定值
-			    private int code = 0;
-					private String message = "OK";
+例如下面。开发中一般都非标准的REST都是一个数据(百度开放平台的接口就基本都是这种形式)，一个状态码和一个消息。其中data的类型是泛型，可以在生成请求的api指定实际返回的类型，如果为空的情况可以使用String。 而code 和message是对应于服务端定义的代码code和返回的错误信息。如果你的后台后台字段不同，你可以按需要修改这个HttpResult的相应字段。
 
-			    //用来模仿Data
-			    @SerializedName(value = "subjects")
-			    private T data;
-		}
-	```
+```java
+	{
+			  // code 为返回的状态码, message 为返回的消息, 演示的没有这两个字段，考虑到真实的环境中基本包含就在这里写定值
+		    private int code = 0;
+				private String message = "OK";
 
-2. 同Retrofit2一样要定义接口，如下。这里仅仅是有GET的接口在demo里，POST, PUT, DELETE, QUERY等都是一样的。
-
-	`HttpResult`里T的类型就是指定泛型data的具体类型。可以使用String， JSONObject，定义的实体等等。
-
-	另外有朋友问题访问参数是JSON对象怎么办 _(Body Paramter JSON Object)_？这其实就是将你的参数设置成一个已经定义的实体，我也给出一个项目中的接口。下面的post就是这种方式。关于请求的REST方式我会在文章后面放出详细的参考，若你不熟悉请参考这些文章。
-	```java
-
-	@GET("mock3")
-	Observable<HttpResult<MockBean>> getMock3();
-
-	@GET("mock1")
-	Observable<HttpResult<List<MockBean>>> getMock1();
-
-	@GET("mock4")
-	Observable<HttpResult<MockBean>> getMock4();
-
-	@GET("mock2")
-	Observable<HttpResult<MockBean>> getMock2();
-	```
-
-3. 请求网络。
-
-	直接调用
-	```java
-	public static MockApi mockApi() {
-		return ServiceFactory.createService(MockApi.class);
+		    //用来模仿Data
+		    @SerializedName(value = "subjects")
+		    private T data;
 	}
-	```
+```
 
-	使用一个默认的`.compose(new DefaultTransformer<List<MockBean>>())`可以非常方便地进行转化成了需要的`Observable`。如下代码中那样进行了线程的转换，错误的处理在这个transformer，可以自定义自己的transformer。
-	```java
-	return observable
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.newThread())
-                .compose(ErrorTransformer.<T>getInstance())
-                .observeOn(AndroidSchedulers.mainThread());
-	```
+### 2. 同Retrofit2一样要定义接口。
+如下。这里仅仅是有GET的接口在demo里，POST, PUT, DELETE, QUERY等都是一样的。`HttpResult`里T的类型就是指定泛型data的具体类型。可以使用String， JSONObject，定义的实体等等。
 
-	另外准备了常用的subscriber，包含了网络连接的错误处理，例如非200状态，另外是服务端（业务）错误的处理，默认是将错误编码和错误信息在控制台和手机上输出。
-	提供的`RxSubscriber`和 `CommonScriber`中的`onNext()`必须实现。
+另外有朋友问题访问参数是JSON对象怎么办 _(Body Paramter JSON Object)_？这其实就是将你的参数设置成一个已经定义的实体，我也给出一个项目中的接口。下面的post就是这种方式。关于请求的REST方式我会在文章后面放出详细的参考，若你不熟悉请参考这些文章。
+```java
 
-	建议使用`RxLifecycle`防止使用`RxJava`内存泄露。其它方面使用同RxJava与Retrofit2结合的使用是相同的，所以得到结果您若有若要对数据进行处理仍然是链式调用。
+@GET("mock3")
+Observable<HttpResult<MockBean>> getMock3();
+
+@GET("mock1")
+Observable<HttpResult<List<MockBean>>> getMock1();
+
+@GET("mock4")
+Observable<HttpResult<MockBean>> getMock4();
+
+@GET("mock2")
+Observable<HttpResult<MockBean>> getMock2();
+```
+
+### 3. 请求网络。
+
+直接调用
+```java
+public static MockApi mockApi() {
+		return ServiceFactory.createService(MockApi.class);
+}
+```
+
+使用一个默认的`.compose(new DefaultTransformer<List<MockBean>>())`可以非常方便地进行转化成了需要的`Observable`。如下代码中那样进行了线程的转换，错误的处理在这个transformer，可以自定义自己的transformer。
+```java
+return observable
+              .subscribeOn(Schedulers.io())
+              .observeOn(Schedulers.newThread())
+              .compose(ErrorTransformer.<T>getInstance())
+              .observeOn(AndroidSchedulers.mainThread());
+```
+
+另外准备了常用的subscriber，包含了网络连接的错误处理，例如非200状态，另外是服务端（业务）错误的处理，默认是将错误编码和错误信息在控制台和手机上输出。
+提供的`RxSubscriber`和 `CommonScriber`中的`onNext()`必须实现。
+
+建议使用`RxLifecycle`防止使用`RxJava`内存泄露。其它方面使用同RxJava与Retrofit2结合的使用是相同的，所以得到结果您若有若要对数据进行处理仍然是链式调用。
 
 ---
 
-#关于错误处理方面介绍
+# 关于错误处理方面介绍
 
 主要使用了RxJava中的`onErrorResumeNext`，遇到错误后将错误通过`ExceptionEngine.handleException(throwable)`进行处理。
 
 ```java
 @Override
-    public Observable<T> call(Observable<HttpResult<T>> responseObservable) {
-        return responseObservable.map(new Func1<HttpResult<T>, T>() {
-            @Override
-            public T call(HttpResult<T> httpResult) {
-                // 通过对返回码进行业务判断决定是返回错误还是正常取数据
-                if (httpResult.getCode() != ErrorType.SUCCESS) throw new ServerException(httpResult.getMessage(), httpResult.getCode());
-                return httpResult.getData();
-            }
-        }).onErrorResumeNext(new Func1<Throwable, Observable<? extends T>>() {
-            @Override
-            public Observable<? extends T> call(Throwable throwable) {
-                //ExceptionEngine为处理异常的驱动器
-                throwable.printStackTrace();
-                return Observable.error(ExceptionEngine.handleException(throwable));
-            }
-        });
-    }
+public Observable<T> call(Observable<HttpResult<T>> responseObservable) {
+    return responseObservable.map(new Func1<HttpResult<T>, T>() {
+        @Override
+        public T call(HttpResult<T> httpResult) {
+            // 通过对返回码进行业务判断决定是返回错误还是正常取数据
+            if (httpResult.getCode() != ErrorType.SUCCESS) throw new ServerException(httpResult.getMessage(), httpResult.getCode());
+            return httpResult.getData();
+        }
+    }).onErrorResumeNext(new Func1<Throwable, Observable<? extends T>>() {
+        @Override
+        public Observable<? extends T> call(Throwable throwable) {
+            //ExceptionEngine为处理异常的驱动器
+            throwable.printStackTrace();
+            return Observable.error(ExceptionEngine.handleException(throwable));
+        }
+    });
+}
 ```
 其中的ApiException包括code和错误的详情
 ```java
@@ -211,40 +212,42 @@ public class ExceptionEngine {
             return ex;
         }
     }
-
 }
 ```
 
-#关于处理服务器在错误时将错误信息直接放在data字段，即data字段在结果成功和失败对应的类型不定。处理思路是自定义GsonConverter，可以查看Demo里的`MockDataActivity`去看使用方法，其实就修改Retofit2初始化传入的GsonConverter。关键是对于`CustomGsonResponseBodyConverter`的修改。
+关于处理服务器在错误时将错误信息直接放在data字段，即data字段在结果成功和失败对应的类型不定。处理思路是自定义GsonConverter，可以查看Demo里的`MockDataActivity`去看使用方法，其实就修改Retofit2初始化传入的GsonConverter。关键是对于`CustomGsonResponseBodyConverter`的修改。
 ```java
-		@Override
-    public T convert(ResponseBody value) throws IOException {
-        String response = value.string();
-        JsonElement jsonElement = jsonParser.parse(response);
-        int parseCode = jsonElement.getAsJsonObject().get("code").getAsInt();
-        //
-        if (parseCode != ErrorType.SUCCESS) {
+@Override
+public T convert(ResponseBody value) throws IOException {
+    String response = value.string();
+    JsonElement jsonElement = jsonParser.parse(response);
+    int parseCode = jsonElement.getAsJsonObject().get("code").getAsInt();
+    //
+    if (parseCode != ErrorType.SUCCESS) {
+        value.close();
+        String msg = jsonElement.getAsJsonObject().get("data").getAsString();
+        throw new ServerException(msg, parseCode);
+    } else {
+
+        MediaType contentType = value.contentType();
+        Charset charset = contentType != null ? contentType.charset(UTF_8) : UTF_8;
+        InputStream inputStream = new ByteArrayInputStream(response.getBytes());
+        Reader reader = new InputStreamReader(inputStream, charset);
+        JsonReader jsonReader = gson.newJsonReader(reader);
+
+        try {
+            return adapter.read(jsonReader);
+        } finally {
             value.close();
-            String msg = jsonElement.getAsJsonObject().get("data").getAsString();
-            throw new ServerException(msg, parseCode);
-        } else {
-
-            MediaType contentType = value.contentType();
-            Charset charset = contentType != null ? contentType.charset(UTF_8) : UTF_8;
-            InputStream inputStream = new ByteArrayInputStream(response.getBytes());
-            Reader reader = new InputStreamReader(inputStream, charset);
-            JsonReader jsonReader = gson.newJsonReader(reader);
-
-            try {
-                return adapter.read(jsonReader);
-            } finally {
-                value.close();
-            }
         }
     }
+}
 ```
 
 这里先解析code字段再进行判断，所以处理这种服务器返回的话，是需要将上面的`"code"`和`"data"`替换成你服务端具体的字段。
+
+
+
 -------------------
 
 
@@ -258,16 +261,16 @@ public class ExceptionEngine {
 添加处理非REST接口在token失效时或code异常时，错误信息放在data字段的解析办法处理。
 
 ```json
-   {
-	  code:-1
+ {
+		code:-1
 		data:"token失效"
-   }
+ }
 ```
 ```json
-	 {
-	  code:0
+{
+		code:0
 		data:{name:"xiaoming", age:23}
-   }
+}
 ```
 
 针对上面的JSON都要在同一个接口里处理，解决办法都是两次解析的办法，第一次取到code并且判断，不是期望的值进行处理。期望的值可按原路处理。这里采用了修改GsonConverter的办法。
@@ -277,10 +280,10 @@ public class ExceptionEngine {
 ### 2016-12-26
 	解决了执行onCompleted()之后执行onError()的问题
 ```java
-	if (!isUnsubscribed())
-	    {
-      unsubscribe();
-      }
+if (!isUnsubscribed())
+{
+		unsubscribe();
+}
 ```
 
 
@@ -289,10 +292,10 @@ public class ExceptionEngine {
 
 ### 2016-10-13
 
-	修正了服务端code没有处理，返回为错误时认为是json实体解析问题。
+修正了服务端code没有处理，返回为错误时认为是json实体解析问题。
 
 ``` java
-		if (httpResult.getCode() != ErrorType.SUCCESS || httpResult.getCode() != ErrorType.SUCCESS)
+if (httpResult.getCode() != ErrorType.SUCCESS || httpResult.getCode() != ErrorType.SUCCESS)
 ```
 
 
