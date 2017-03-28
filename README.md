@@ -286,10 +286,6 @@ if (!isUnsubscribed())
 }
 ```
 
-
------------------
-
-
 ### 2016-10-13
 
 修正了服务端code没有处理，返回为错误时认为是json实体解析问题。
@@ -297,6 +293,9 @@ if (!isUnsubscribed())
 ``` java
 if (httpResult.getCode() != ErrorType.SUCCESS || httpResult.getCode() != ErrorType.SUCCESS)
 ```
+
+
+------------------------
 
 
 ## Thanks
