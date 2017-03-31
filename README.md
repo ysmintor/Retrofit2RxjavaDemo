@@ -11,7 +11,7 @@
 ![rx](screenshots/rx.gif)
 ![common](screenshots/common.gif)
 
-本文主要介绍了使用Retrofit2配合Rxjava[这里指Rxjava1, 暂时未适配Rxjava2] 来处理非restful的网络请求结果。一般而言请求的非REST结果如下,包括一个code代表结果的状态和msg表示描述，以及data对应的真实的数据。我们的目的就是直接取`data`对应的数据，如果是数组那么取的也是数组`list<databean>`类型的，如果有错误，那么就会调用onError()方法。更多演示效果请查看video目录下的视频。
+本文主要介绍了使用Retrofit2配合Rxjava[这里指Rxjava1, 暂时未适配Rxjava2] 来处理非restful的网络请求结果。一般而言请求的非REST结果如下,包括一个code代表结果的状态和msg表示描述，以及data对应的真实的数据。我们的目的就是直接取`data`对应的数据，如果是数组那么取的也是数组`list<databean>`类型的，如果有错误，那么就会调用onError()方法。更多演示效果请查看[video](video)目录下的视频。
 
 ```json
 {
@@ -19,18 +19,18 @@
 	"msg": "请求成功",    //请求返回状态
 	"data":
 	{    //返回结果
-			"phone": "010-62770334;010-62782051",    //电话
-			"website": "www.tsinghua.edu.cn",    //官网
-			"email": "zsb@mail.tsinghua.edu.cn",    //邮箱
-			"address": "北京市海淀区清华大学",    //地址
-			"zipcode": "0102770334",    //邮编
-			"name": "清华大学",    //学校名称
-			"img": "http://img.jidichong.com/school/3.png",    //学校logo图片
-			"parent": "教育部",    //隶属部门
-			"type": " 211 985",    //学校类型
-			"profile": "xasd",   //简介
-			"info": "院士：68人 博士点：198个 硕士点：181个",    //说明
-			"city": "北京"   //所在省市
+		"phone": "010-62770334;010-62782051",    //电话
+		"website": "www.tsinghua.edu.cn",    //官网
+		"email": "zsb@mail.tsinghua.edu.cn",    //邮箱
+		"address": "北京市海淀区清华大学",    //地址
+		"zipcode": "0102770334",    //邮编
+		"name": "清华大学",    //学校名称
+		"img": "http://img.jidichong.com/school/3.png",    //学校logo图片
+		"parent": "教育部",    //隶属部门
+		"type": " 211 985",    //学校类型
+		"profile": "xasd",   //简介
+		"info": "院士：68人 博士点：198个 硕士点：181个",    //说明
+		"city": "北京"   //所在省市
 	}
 }
 ```
@@ -50,13 +50,13 @@
 
 ```java
 	{
-			  // code 为返回的状态码, message 为返回的消息, 演示的没有这两个字段，考虑到真实的环境中基本包含就在这里写定值
-		    private int code = 0;
-				private String message = "OK";
+	    // code 为返回的状态码, message 为返回的消息, 演示的没有这两个字段，考虑到真实的环境中基本包含就在这里写定值
+	    private int code = 0;
+			private String message = "OK";
 
-		    //用来模仿Data
-		    @SerializedName(value = "subjects")
-		    private T data;
+	    //用来模仿Data
+	    @SerializedName(value = "subjects")
+	    private T data;
 	}
 ```
 
@@ -84,17 +84,17 @@ Observable<HttpResult<MockBean>> getMock2();
 直接调用
 ```java
 public static MockApi mockApi() {
-		return ServiceFactory.createService(MockApi.class);
+	return ServiceFactory.createService(MockApi.class);
 }
 ```
 
 使用一个默认的`.compose(new DefaultTransformer<List<MockBean>>())`可以非常方便地进行转化成了需要的`Observable`。如下代码中那样进行了线程的转换，错误的处理在这个transformer，可以自定义自己的transformer。
 ```java
 return observable
-              .subscribeOn(Schedulers.io())
-              .observeOn(Schedulers.newThread())
-              .compose(ErrorTransformer.<T>getInstance())
-              .observeOn(AndroidSchedulers.mainThread());
+          .subscribeOn(Schedulers.io())
+          .observeOn(Schedulers.newThread())
+          .compose(ErrorTransformer.<T>getInstance())
+          .observeOn(AndroidSchedulers.mainThread());
 ```
 
 另外准备了常用的subscriber，包含了网络连接的错误处理，例如非200状态，另外是服务端（业务）错误的处理，默认是将错误编码和错误信息在控制台和手机上输出。
