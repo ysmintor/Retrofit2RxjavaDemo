@@ -14,6 +14,10 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.support.AndroidSupportInjection;
+import dagger.android.support.AndroidSupportInjectionModule;
 import york.com.retrofit2rxjavademo.R;
 import york.com.retrofit2rxjavademo.entity.MockBean;
 import york.com.retrofit2rxjavademo.http.ServiceFactory;
@@ -37,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private Context mContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);

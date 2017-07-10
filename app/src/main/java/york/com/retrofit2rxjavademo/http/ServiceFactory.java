@@ -2,6 +2,8 @@ package york.com.retrofit2rxjavademo.http;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -13,19 +15,19 @@ import york.com.retrofit2rxjavademo.utils.OkHttpUtils;
  * Created by York on 2016/7/23.
  */
 public class ServiceFactory {
-//    public static final String OLD_BASE_URL = "https://liangfeizc.com/gw/oauthentry/";
-    public static final String NEW_BASE_URL = "https://liangfei.me/api/oauthentry/";
-//    public static final String BASE_URL = "https://api.douban.com/v2/movie/";
-//    public static final String BASE_URL = "http://rap.taobao.org/mockjsdata/13886/";
+
+/*
     public static final String BASE_URL = "http://rap.taobao.org/mockjsdata/15987/";
     private static final int DEFAULT_TIMEOUT = 10;
-    private static Retrofit sRetrefit;
-    private static OkHttpClient sClient;
+*/
+    @Inject
+    private Retrofit sRetrefit;
+    private OkHttpClient sClient;
 
 
 
 
-    static {
+/*    static {
         sClient = new OkHttpClient.Builder()
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
@@ -44,17 +46,17 @@ public class ServiceFactory {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
-    }
+    }*/
 
-    public static <T> T createService(Class<T> serviceClazz) {
+    public  <T> T createService(Class<T> serviceClazz) {
         return sRetrefit.create(serviceClazz);
     }
 
-    public static <T> T createService(Retrofit retrofit, Class<T> serviceClazz) {
+    public  <T> T createService(Retrofit retrofit, Class<T> serviceClazz) {
         return retrofit.create(serviceClazz);
     }
 
-    public static OkHttpClient getsClient() {
+    public  OkHttpClient getsClient() {
         return sClient;
     }
 
@@ -66,7 +68,7 @@ public class ServiceFactory {
      * @param <T>
      * @return
      */
-    public static <T> T createService(String baseUrl, Class<T> serviceClazz) {
+    public <T> T createService(String baseUrl, Class<T> serviceClazz) {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(sClient)
                 .baseUrl(baseUrl)
@@ -85,7 +87,7 @@ public class ServiceFactory {
      * @param <T>
      * @return
      */
-    public static <T> T createService(Class<T> serviceClazz, OkHttpClient okHttpClient) {
+    public <T> T createService(Class<T> serviceClazz, OkHttpClient okHttpClient) {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
                 .baseUrl(BASE_URL)
@@ -120,12 +122,12 @@ public class ServiceFactory {
      * 向外部提供api请求
      * @return
      */
-    public static MovieService movieApi() {
-        return ServiceFactory.createService(MovieService.class);
+    public MovieService movieApi() {
+        return createService(MovieService.class);
     }
 
-    public static MockApi mockApi() {
-        return ServiceFactory.createService(MockApi.class);
+    public MockApi mockApi() {
+        return createService(MockApi.class);
     }
 
     /**
@@ -133,7 +135,7 @@ public class ServiceFactory {
      * @param retrofit
      * @return
      */
-    public static MockApi mockApi2(Retrofit retrofit) {
-        return ServiceFactory.createService(retrofit, MockApi.class);
+    public MockApi mockApi2(Retrofit retrofit) {
+        return createService(retrofit, MockApi.class);
     }
 }
