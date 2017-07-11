@@ -42,11 +42,12 @@ public class MainActivity extends AppCompatActivity {
     Button mBtnConverter;
     private Context mContext;
 
-
+    @Inject
     ServiceFactory mServiceFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);

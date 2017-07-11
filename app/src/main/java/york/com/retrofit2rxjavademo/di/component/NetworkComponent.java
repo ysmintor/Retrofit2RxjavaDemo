@@ -16,14 +16,11 @@ import york.com.retrofit2rxjavademo.di.scope.NetworkScope;
  * @date: 2017/7/7
  * @time: 17:30
  */
-@NetworkScope
 @Subcomponent(modules = {NetworkModule.class})
 public interface NetworkComponent {
 
     @Subcomponent.Builder
     interface Builder {
-        @BindsInstance
-        Builder baseUrl(String base_url);
         NetworkComponent build();
     }
 

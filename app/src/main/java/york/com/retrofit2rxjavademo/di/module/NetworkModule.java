@@ -26,6 +26,8 @@ import york.com.retrofit2rxjavademo.MyApplication;
 import york.com.retrofit2rxjavademo.di.scope.AppScope;
 import york.com.retrofit2rxjavademo.di.scope.NetworkScope;
 import york.com.retrofit2rxjavademo.gsonconverter.CustomGsonConverterFactory;
+import york.com.retrofit2rxjavademo.http.ServiceFactory;
+import york.com.retrofit2rxjavademo.http.exception.ServerException;
 
 /**
  * @author: YorkYu
@@ -38,24 +40,23 @@ import york.com.retrofit2rxjavademo.gsonconverter.CustomGsonConverterFactory;
  */
 @Module
 public class NetworkModule {
-    private static final String mBaseUrl = "http://rap.taobao.org/mockjsdata/15987/";
+//    private String mBaseUrl = "http://rap.taobao.org/mockjsdata/15987/";
+    private static String mBaseUrl;
     private static final int DEFAULT_TIMEOUT = 10;
 
     // Constructor needs one parameter to instantiate.
-//    public NetworkModule(String baseUrl) {
-//        this.mBaseUrl = baseUrl;
-//    }
+    public NetworkModule(String baseUrl) {
+        this.mBaseUrl = baseUrl;
+    }
 
     // Dagger will only look for methods annotated with @Provides
     @Provides
-    @NetworkScope
     // Application reference must come from AppModule.class
     SharedPreferences providesSharedPreferences(MyApplication application) {
         return PreferenceManager.getDefaultSharedPreferences(application);
     }
 
     @Provides
-    @NetworkScope
     Cache provideOkHttpCache(MyApplication application) {
         int cacheSize = 10 * 1024 * 1024; // 10 MiB
         Cache cache = new Cache(application.getCacheDir(), cacheSize);
@@ -63,7 +64,6 @@ public class NetworkModule {
     }
 
     @Provides
-    @NetworkScope
     Gson provideGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.IDENTITY);
@@ -71,24 +71,21 @@ public class NetworkModule {
     }
 
     @Provides
-    @NetworkScope
-    @Named("cached")
     OkHttpClient provideOkHttpClient(Cache cache) {
         OkHttpClient client =
-        new OkHttpClient.Builder()
-                .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .addNetworkInterceptor(
-                        new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .retryOnConnectionFailure(true)
-                .cache(cache)
-                .build();
+                new OkHttpClient.Builder()
+                        .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                        .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                        .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                        .addNetworkInterceptor(
+                                new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                        .retryOnConnectionFailure(true)
+                        .cache(cache)
+                        .build();
         return client;
     }
 
     @Provides
-    @NetworkScope
     @Named("noncached")
     OkHttpClient provideNonCachedOkHttpClient() {
         OkHttpClient client =
@@ -104,14 +101,18 @@ public class NetworkModule {
     }
 
     @Provides
-    @NetworkScope
-    Retrofit provideRetrofit(Gson gson, @Named("cached") OkHttpClient okHttpClient) {
+    Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(okHttpClient)
                 .baseUrl(mBaseUrl)
                 .build();
+    }
+
+    @Provides
+    ServiceFactory provideServiceFactory(Retrofit retrofit, OkHttpClient okHttpClient) {
+        return new ServiceFactory(retrofit, okHttpClient);
     }
 
     /**

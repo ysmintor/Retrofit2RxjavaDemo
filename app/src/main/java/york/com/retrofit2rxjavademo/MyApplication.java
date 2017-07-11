@@ -11,7 +11,10 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
 import dagger.android.HasFragmentInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import york.com.retrofit2rxjavademo.di.component.AppComponent;
 import york.com.retrofit2rxjavademo.di.component.DaggerAppComponent;
+import york.com.retrofit2rxjavademo.di.component.NetworkComponent;
+import york.com.retrofit2rxjavademo.di.module.NetworkModule;
 
 /**
  * @author YorkYu
@@ -42,6 +45,7 @@ public class MyApplication extends Application implements HasActivityInjector {
         DaggerAppComponent
                 .builder()
                 .application(this)
+                .network(new NetworkModule(sBASE_URL))
                 .build()
                 .inject(this);
     }
