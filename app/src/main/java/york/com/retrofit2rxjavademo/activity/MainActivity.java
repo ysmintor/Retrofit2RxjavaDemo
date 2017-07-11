@@ -22,6 +22,7 @@ import dagger.android.support.AndroidSupportInjection;
 import dagger.android.support.AndroidSupportInjectionModule;
 import york.com.retrofit2rxjavademo.R;
 import york.com.retrofit2rxjavademo.entity.MockBean;
+import york.com.retrofit2rxjavademo.entity.TestBean;
 import york.com.retrofit2rxjavademo.http.ServiceFactory;
 import york.com.retrofit2rxjavademo.http.exception.ApiException;
 import york.com.retrofit2rxjavademo.subscribers.CommonSubscriber;
@@ -45,6 +46,11 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     ServiceFactory mServiceFactory;
 
+    @Inject
+    TestBean mTestBean;
+
+    @Inject
+    TestBean mTestBean2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
@@ -53,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         mContext = this;
         Log.w(TAG, "onCreate: aa" );
+        Log.w(TAG, mTestBean.toString());
+        Log.w(TAG, mTestBean2.toString());
     }
 
     @OnClick({R.id.btn_rxsubscriber, R.id.btn_common, R.id.btn_converter, R.id.btn_error})

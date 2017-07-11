@@ -15,6 +15,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import york.com.retrofit2rxjavademo.R;
 import york.com.retrofit2rxjavademo.entity.MockBean;
+import york.com.retrofit2rxjavademo.entity.TestBean;
 import york.com.retrofit2rxjavademo.gsonconverter.CustomGsonConverterFactory;
 import york.com.retrofit2rxjavademo.http.ServiceFactory;
 import york.com.retrofit2rxjavademo.subscribers.RxSubscriber;

@@ -5,6 +5,7 @@ import dagger.android.ContributesAndroidInjector;
 import york.com.retrofit2rxjavademo.activity.MainActivity;
 import york.com.retrofit2rxjavademo.activity.MockDataActivity;
 import york.com.retrofit2rxjavademo.di.scope.ControllerScope;
+import york.com.retrofit2rxjavademo.di.scope.PerActivityScope;
 
 /**
  * @author: YorkYu
@@ -18,8 +19,8 @@ import york.com.retrofit2rxjavademo.di.scope.ControllerScope;
 @Module
 public abstract class InjectorModule {
 
-    @ControllerScope
-    @ContributesAndroidInjector()
+    @PerActivityScope
+    @ContributesAndroidInjector(modules = MainModule.class)
     abstract MainActivity contributeMainActivityInjector();
 
     @ControllerScope
