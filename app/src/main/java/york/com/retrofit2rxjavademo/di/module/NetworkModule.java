@@ -76,6 +76,7 @@ public class NetworkModule {
 
     @Provides
     @AppScope
+    @Named("cached")
     OkHttpClient provideOkHttpClient(Cache cache) {
         OkHttpClient client =
                 new OkHttpClient.Builder()
@@ -108,7 +109,7 @@ public class NetworkModule {
 
     @Provides
     @AppScope
-    Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
+    Retrofit provideRetrofit(Gson gson, @Named("cached") OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -117,18 +118,13 @@ public class NetworkModule {
                 .build();
     }
 
-    @Provides
-    @AppScope
-    ServiceFactory provideServiceFactory(Retrofit retrofit, OkHttpClient okHttpClient) {
-        return new ServiceFactory(retrofit, okHttpClient);
-    }
 
     /**
      *  使用自定义Converter处理message在错误时返回在data字段
      * @param gson
      * @param okHttpClient
      * @return
-     *//*
+     */
     @Provides
     @AppScope
     @Named("custom_converter")
@@ -139,5 +135,5 @@ public class NetworkModule {
                 .client(okHttpClient)
                 .baseUrl(mBaseUrl)
                 .build();
-    }*/
+    }
 }

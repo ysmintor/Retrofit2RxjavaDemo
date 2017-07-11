@@ -3,11 +3,9 @@ package york.com.retrofit2rxjavademo.di.component;
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
-import dagger.android.support.AndroidSupportInjection;
-import dagger.android.support.AndroidSupportInjectionModule;
 import york.com.retrofit2rxjavademo.MyApplication;
 import york.com.retrofit2rxjavademo.di.module.AppModule;
-import york.com.retrofit2rxjavademo.di.module.BuilderModule;
+import york.com.retrofit2rxjavademo.di.module.InjectorModule;
 import york.com.retrofit2rxjavademo.di.module.NetworkModule;
 import york.com.retrofit2rxjavademo.di.scope.AppScope;
 
@@ -24,7 +22,7 @@ import york.com.retrofit2rxjavademo.di.scope.AppScope;
 @Component(modules = {
         /* Use AndroidInjectionModule.class if you're not using support library */
         AndroidInjectionModule.class,
-        BuilderModule.class,
+        InjectorModule.class,
         NetworkModule.class,
         AppModule.class})
 public interface AppComponent {

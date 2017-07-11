@@ -19,16 +19,12 @@ public class ServiceFactory {
     private static final int DEFAULT_TIMEOUT = 10;
 */
     private final Retrofit mRetrofit;
-    private final OkHttpClient mOkHttpClient;
-/*
-    @Inject
-    @Named("custom_converter")
-    Retrofit mCustomConverterRetrofit;
-*/
+    private final Retrofit mCustomConverterRetrofit;
 
-    public ServiceFactory(Retrofit retrofit, OkHttpClient okHttpClient) {
+    @Inject
+    public ServiceFactory(Retrofit retrofit, @Named("custom_converter") Retrofit customConverterRetrofit) {
         this.mRetrofit = retrofit;
-        this.mOkHttpClient = okHttpClient;
+        this.mCustomConverterRetrofit = customConverterRetrofit;
     }
 
 
@@ -41,24 +37,7 @@ public class ServiceFactory {
     }
 
 
-    /**
-     * 创建
-     *
-     * @param baseUrl
-     * @param serviceClazz
-     * @param <T>
-     * @return
-     */
-    public <T> T createService(String baseUrl, Class<T> serviceClazz) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .client(mOkHttpClient)
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
 
-        return retrofit.create(serviceClazz);
-    }
 
     /**
      * 创建
@@ -97,6 +76,6 @@ public class ServiceFactory {
      * @return
      */
     public MockApi mockApi2() {
-        return createService(mRetrofit, MockApi.class);
+        return createService(mCustomConverterRetrofit, MockApi.class);
     }
 }

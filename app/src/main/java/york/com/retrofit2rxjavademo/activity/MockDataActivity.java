@@ -28,10 +28,12 @@ public class MockDataActivity extends AppCompatActivity {
     private Context mContext;
 
 
+    @Inject
     ServiceFactory mServiceFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mock_data);
         mContext = this;
