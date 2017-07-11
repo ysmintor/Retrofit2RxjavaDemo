@@ -16,6 +16,8 @@ import york.com.retrofit2rxjavademo.di.scope.ControllerScope;
  */
 @Module
 public abstract class BuilderModule {
+
+    @ControllerScope
     @ContributesAndroidInjector()
     abstract MainActivity contributeMainActivityInjector();
 }
