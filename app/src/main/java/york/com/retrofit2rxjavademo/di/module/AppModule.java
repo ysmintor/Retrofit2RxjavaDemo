@@ -5,6 +5,7 @@ import android.content.Context;
 
 import dagger.Module;
 import dagger.Provides;
+import york.com.retrofit2rxjavademo.MyApplication;
 import york.com.retrofit2rxjavademo.di.component.NetworkComponent;
 import york.com.retrofit2rxjavademo.di.scope.AppScope;
 
@@ -21,7 +22,7 @@ import york.com.retrofit2rxjavademo.di.scope.AppScope;
 public class AppModule {
     @AppScope
     @Provides
-    Context provideContext(Application application) {
+    Context provideContext(MyApplication application) {
         return application.getApplicationContext();
     }
 }

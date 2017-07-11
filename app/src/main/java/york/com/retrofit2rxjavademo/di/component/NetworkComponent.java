@@ -1,12 +1,10 @@
 package york.com.retrofit2rxjavademo.di.component;
 
 import dagger.BindsInstance;
-import dagger.Component;
 import dagger.Subcomponent;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import york.com.retrofit2rxjavademo.di.module.NetworkModule;
-import york.com.retrofit2rxjavademo.di.scope.AppScope;
 import york.com.retrofit2rxjavademo.di.scope.NetworkScope;
 
 /**
@@ -19,7 +17,7 @@ import york.com.retrofit2rxjavademo.di.scope.NetworkScope;
  * @time: 17:30
  */
 @NetworkScope
-@Subcomponent(modules = NetworkModule.class)
+@Subcomponent(modules = {NetworkModule.class})
 public interface NetworkComponent {
 
     @Subcomponent.Builder

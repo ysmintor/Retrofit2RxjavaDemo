@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -39,9 +41,12 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.btn_converter)
     Button mBtnConverter;
     private Context mContext;
+
+
+    ServiceFactory mServiceFactory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -68,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     }
     // Example use with CommonSubscriber which does not contain progress bar
     private void withoutDialog() {
-        ServiceFactory.mockApi()
+        mServiceFactory.mockApi()
                 .getMock1()
                 .compose(new DefaultTransformer<List<MockBean>>())
                 .subscribe(new CommonSubscriber<List<MockBean>>(mContext) {
@@ -98,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
     // Example use with RxSubscriber which contains progress bar
     private void withDialog() {
-        ServiceFactory.mockApi()
+        mServiceFactory.mockApi()
                 .getMock4()
                 .compose(new DefaultTransformer<MockBean>())
                 .subscribe(new RxSubscriber<MockBean>(mContext) {
@@ -113,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showError() {
-        ServiceFactory.mockApi()
+        mServiceFactory.mockApi()
                 .getMock2()
                 .compose(new DefaultTransformer<MockBean>())
                 .subscribe(new CommonSubscriber<MockBean>(mContext) {

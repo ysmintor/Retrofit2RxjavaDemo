@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import york.com.retrofit2rxjavademo.R;
@@ -17,14 +20,15 @@ import york.com.retrofit2rxjavademo.http.ServiceFactory;
 import york.com.retrofit2rxjavademo.subscribers.RxSubscriber;
 import york.com.retrofit2rxjavademo.transformer.DefaultTransformer;
 
-import static york.com.retrofit2rxjavademo.http.ServiceFactory.BASE_URL;
 
 public class MockDataActivity extends AppCompatActivity {
     private TextView mTv;
     private Button mBtn1;
     private Button mBtn2;
     private Context mContext;
-    private Retrofit sRetrefit;
+
+
+    ServiceFactory mServiceFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,18 +41,18 @@ public class MockDataActivity extends AppCompatActivity {
 
 
         // 使用自定义Converter处理message在错误时返回在data字段
-        sRetrefit = new Retrofit.Builder()
-                .client(ServiceFactory.getsClient())
+ /*       sRetrefit = new Retrofit.Builder()
+                .client(ServiceFactory.getOkHttpClient())
                 .baseUrl(BASE_URL)
                 // 使用自定义Converter处理message在错误时返回在data字段
                 .addConverterFactory(CustomGsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
+                .build();*/
 
         mBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ServiceFactory.mockApi2(sRetrefit)
+                mServiceFactory.mockApi2()
                         .getMock3()
                         .compose(new DefaultTransformer<MockBean>())
                         .subscribe(new RxSubscriber<MockBean>(mContext) {
@@ -63,7 +67,7 @@ public class MockDataActivity extends AppCompatActivity {
         mBtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ServiceFactory.mockApi2(sRetrefit)
+                mServiceFactory.mockApi2()
                         .getMock4()
                         .compose(new DefaultTransformer<MockBean>())
                         .subscribe(new RxSubscriber<MockBean>(mContext) {
