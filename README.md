@@ -4,7 +4,7 @@
 
 
 ### 无Dagger2示例
-Dagger2的使用可以简化相关依赖，所以把Dagger2使用集成在一起，所以之前的无dagger2放在[nodagger2 branch](/ysmintor/Retrofit2RxjavaDemo/tree/nodagger2)中，不使用Dagger2的可以查看这个分支。
+Dagger2的使用可以简化相关依赖，所以把Dagger2使用集成在一起，所以之前的无dagger2放在[nodagger2 branch](https://github.com/ysmintor/Retrofit2RxjavaDemo/tree/nodagger2)中，不使用Dagger2的可以查看这个分支。
 
 
 ### 效果展示
