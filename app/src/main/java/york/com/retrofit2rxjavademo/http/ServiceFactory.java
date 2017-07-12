@@ -7,11 +7,13 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import york.com.retrofit2rxjavademo.di.scope.AppScope;
 import york.com.retrofit2rxjavademo.di.scope.NetworkScope;
 
 /**
  * Created by York on 2016/7/23.
  */
+@AppScope
 public class ServiceFactory {
 
 /*

@@ -23,7 +23,7 @@ public abstract class InjectorModule {
     @ContributesAndroidInjector(modules = MainModule.class)
     abstract MainActivity contributeMainActivityInjector();
 
-    @ControllerScope
-    @ContributesAndroidInjector()
+    @PerActivityScope
+    @ContributesAndroidInjector(modules = MainModule.class)
     abstract MockDataActivity contributeMockDataActivityInjector();
 }

@@ -3,7 +3,8 @@
 ***
 
 
-## 中文版
+### 无Dagger2示例
+Dagger2的使用可以简化相关依赖，所以把Dagger2使用集成在一起，所以之前的无dagger2放在[@nodagger2](tree/nodagger2)
 
 
 ### 效果展示
@@ -254,6 +255,8 @@ public T convert(ResponseBody value) throws IOException {
 
 
 ## Update
+### 2017-07-12
+增加了Dagger2.11(依赖注入)的使用，非Dagger2方式放在不同的Branch
 ### 2017-03-28
 更新说明文档，修正格式化错位，解决在atom下tab长度与github长度不对应的显示问题。
 ### 2017-03-27

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import york.com.retrofit2rxjavademo.transformer.DefaultTransformer;
 
 
 public class MockDataActivity extends AppCompatActivity {
+    private static final String TAG = "MockDataActivity";
     private TextView mTv;
     private Button mBtn1;
     private Button mBtn2;
@@ -32,6 +34,11 @@ public class MockDataActivity extends AppCompatActivity {
     @Inject
     ServiceFactory mServiceFactory;
 
+    @Inject
+    TestBean mTestBean;
+
+    @Inject
+    TestBean mTestBean2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
@@ -42,6 +49,8 @@ public class MockDataActivity extends AppCompatActivity {
         mBtn1 = (Button) findViewById(R.id.button);
         mBtn2 = (Button) findViewById(R.id.button2);
 
+        Log.w(TAG, mTestBean.toString());
+        Log.w(TAG, mTestBean2.toString());
 
         // 使用自定义Converter处理message在错误时返回在data字段
  /*       sRetrefit = new Retrofit.Builder()
