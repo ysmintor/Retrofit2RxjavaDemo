@@ -17,7 +17,9 @@ allprojects {
         jcenter()
     }
 }
-
+ext {
+    rxbindingVersion = '1.0.1'
+}
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '25.0.3'
+    buildToolsVersion '26.0.0'
 
     defaultConfig {
         applicationId "york.com.retrofit2rxjavademo"
@@ -31,27 +31,33 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:appcompat-v7:26.0.0-aplha1'
     compile 'io.reactivex:rxjava:1.1.8'
     compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    // retorfit2
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
+    // butterknife
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.squareup.okhttp3:okhttp:3.4.1'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
-    compile 'com.trello:rxlifecycle:0.6.1'
-    compile 'com.trello:rxlifecycle-components:0.6.1'
-    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
-    compile 'com.jakewharton.rxbinding:rxbinding-support-v4:0.4.0'
-    compile 'com.jakewharton.rxbinding:rxbinding-design:0.4.0'
-    compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0'
+    // okhttp
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    // rxlife
+    compile 'com.trello:rxlifecycle:1.0'
+    compile 'com.trello:rxlifecycle-components:1.0'
+    // rxbinding
+    compile "com.jakewharton.rxbinding:rxbinding:${rootProject.ext.rxbindingVersion}"
+    compile "com.jakewharton.rxbinding:rxbinding-support-v4:${rootProject.ext.rxbindingVersion}"
+    compile "com.jakewharton.rxbinding:rxbinding-design:${rootProject.ext.rxbindingVersion}"
+    compile "com.jakewharton.rxbinding:rxbinding-recyclerview-v7:${rootProject.ext.rxbindingVersion}"
+    // contraintlayout
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-
     // dagger2
     compile 'com.google.dagger:dagger-android:2.11'
-    compile 'com.google.dagger:dagger-android-support:2.11' // if you use the support libraries
+    compile 'com.google.dagger:dagger-android-support:2.11'
+    // if you use the support libraries
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
 }
