@@ -2,6 +2,10 @@
 [![Build Status](https://travis-ci.org/ysmintor/Retrofit2RxjavaDemo.svg?branch=master)](https://travis-ci.org/ysmintor/Retrofit2RxjavaDemo)
 ***
 
+#Help
+谁愿意使用本Demo后有时间，希望有人可以在使用本Demo后发有时间来帮助，愿意做contributor的联系我ysmintor@gmail.com。
+
+
 
 ### 无Dagger2示例
 Dagger2的使用可以简化相关依赖，所以把Dagger2使用集成在一起，所以之前的无dagger2放在[nodagger2 branch](https://github.com/ysmintor/Retrofit2RxjavaDemo/tree/nodagger2)中，不使用Dagger2的可以查看这个分支。
@@ -256,7 +260,7 @@ public T convert(ResponseBody value) throws IOException {
 
 ## Update
 ### 2017-07-12
-增加了Dagger2.11(依赖注入)的使用，非Dagger2方式放在不同的Branch
+增加了`Dagger` 2.11(依赖注入)的使用，非`Dagger2`方式放在不同的`Branch noDagger2`中方便不使用Dagger2用户
 ### 2017-03-28
 更新说明文档，修正格式化错位，解决在atom下tab长度与github长度不对应的显示问题。
 ### 2017-03-27
