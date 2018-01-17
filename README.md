@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/ysmintor/Retrofit2RxjavaDemo.svg?branch=master)](https://travis-ci.org/ysmintor/Retrofit2RxjavaDemo)
 ***
 
-#Help
+# Help
 谁愿意使用本Demo后有时间，希望有人可以在使用本Demo后发有时间来帮助，愿意做contributor的联系我ysmintor@gmail.com。
 
 
